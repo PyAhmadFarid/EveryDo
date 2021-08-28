@@ -14,7 +14,7 @@
     <div class=" w-screen h-screen flex flex-col">
         <div class="h-full overflow-y-auto">
             <div class=" flex justify-between m-6">
-                <button>
+                <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
                 </button>
                 <button>
@@ -48,9 +48,9 @@
             <div class="m-7 ">
                 <span class="font-bold text-gray-300  ">Files</span>
                 <!-- <input type="text" class=" w-full border-2 p-2 rounded-xl mt-2"> -->
-                <div class=" flex justify-center flex-col items-center border border-dashed p-4 mt-2">
+                <div class=" flex justify-center flex-col items-center border-2 border-dashed p-4 mt-2">
                     <img src="icons/upload-24px.svg" alt="">
-                    <button class="p-2 border-niceBlue rounded-xl border text-niceBlue m-3">Browse files to upload</button>
+                    <button class="py-2 px-3 border-niceBlue rounded-xl border text-niceBlue m-3">Browse files to upload</button>
                 </div>
             </div>
 
@@ -62,5 +62,10 @@
     </div>
 
 </body>
+<script>
+    function GoToBack(){
+        window.history.back();
+    }
+</script>
 
 </html>
