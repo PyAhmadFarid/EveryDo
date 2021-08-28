@@ -22,50 +22,107 @@
                 </button>
             </div>
 
-            <div class=" font-bold text-2xl text-niceBlue m-7">New Task</div>
+            <div class=" font-bold text-2xl text-niceBlue m-7 ">New Task</div>
+
             <div class="m-7 ">
                 <span class="font-bold text-gray-300">Task Name</span>
-                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                <input type="text" class=" inpTaskName w-full border border-niceBlack p-2 rounded-xl mt-2">
             </div>
             <div class="mx-7 mb-4">
                 <span class="font-bold text-gray-300  ">Task Category</span>
-                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                <input type="text" class=" inpTaskCategory w-full border border-niceBlack p-2 rounded-xl mt-2">
             </div>
             <div class="mx-7 flex flex-wrap justify-between">
-                <div class="mt-3 flex-grow">
+                <div class="mt-3 mr-3 flex-grow">
                     <span class="font-bold text-gray-300  ">Start Date</span>
-                    <input type="date" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                    <input type="date" class=" inpStartDate bg-white w-full border border-niceBlack p-2 rounded-xl mt-2">
                 </div>
                 <div class="mt-3 flex-grow">
                     <span class="font-bold text-gray-300  ">End Date</span>
-                    <input type="date" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                    <input type="date" class="inpEndDate bg-white w-full border border-niceBlack p-2 rounded-xl mt-2">
                 </div>
             </div>
             <div class="m-7 ">
-                <span class="font-bold text-gray-300  ">Task Description</span>
-                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                <span class="  font-bold text-gray-300  ">Task Description</span>
+                <input type="text" class="inpTaskDescription w-full border border-niceBlack p-2 rounded-xl mt-2">
             </div>
             <div class="m-7 ">
                 <span class="font-bold text-gray-300  ">Files</span>
                 <!-- <input type="text" class=" w-full border-2 p-2 rounded-xl mt-2"> -->
-                <div class=" flex justify-center flex-col items-center border-2 border-dashed p-4 mt-2">
+                <div class="overflow-hidden  flex justify-center flex-col items-center border-2 border-dashed p-4 mt-2">
                     <img src="icons/upload-24px.svg" alt="">
-                    <button class="py-2 px-3 border-niceBlue rounded-xl border text-niceBlue m-3">Browse files to upload</button>
+                    <button onclick="importData()" type="file" class="btnAddFile py-2 px-3 border-niceBlue rounded-xl border text-niceBlue m-3">Browse
+                        files to
+                        upload</button>
                 </div>
             </div>
 
 
         </div>
         <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
-            <button class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
+            <button onclick="SubmitTask()" class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
         </div>
     </div>
 
 </body>
 <script>
-    function GoToBack(){
-        window.history.back();
+    var file = null;
+
+    function GoToBack() {
+        //console.log(window.history);
+        window.location.href = "index.html"
     }
+
+    function AddTask(data){
+        if(localStorage.getItem("myTask") === null){
+            localStorage.setItem("myTask","[]");
+        }else{
+            let mytask = JSON.parse(localStorage.getItem("myTask"));
+            let TaskId = mytask.length;
+            data["id"] = TaskId+1;
+            mytask.push(data);
+            localStorage.setItem("myTask",JSON.stringify(mytask));
+        }
+    }
+
+    function SubmitTask() {
+        console.log(file);
+
+
+        let inps = ["TaskName","TaskCategory","StartDate","EndDate","TaskDescription"]
+        let canAdd = true;
+        let data = {}
+        inps.forEach((i)=>{
+            if($(".inp"+i).val() ===  ''){
+                $(".inp"+i).removeClass("border-niceBlack");
+                $(".inp"+i).addClass("border-red-500");
+                
+                canAdd = false;
+            }
+            data[i] = $(".inp"+i).val()
+        })
+
+        if(canAdd){
+            console.log(data);
+            AddTask(data);
+
+            GoToBack();
+        }
+        
+    }
+
+    function importData() {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = _ => {
+            // you can use this method to get file and perform respective operations
+            let files = Array.from(input.files)[0];
+            $(".btnAddFile").html(files.name);
+            file = files;
+        };
+        input.click();
+    }
+
 </script>
 
 </html>

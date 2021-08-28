@@ -624,7 +624,17 @@ video {
   src: url(../fonts/Poppins-Bold.ttf) format("truetype");
 }
 
-button{
+input:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+button {
   -webkit-tap-highlight-color: transparent;
 }
 

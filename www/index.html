@@ -19,13 +19,97 @@
             <div class="page home">
                 <h1 class=" font-bold text-2xl text-niceBlue m-7">Hello, Joni!</h1>
 
+                <!-- today -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">Today! <span
                             class="pl-2 text-sm">(3)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
-                        <div class=" px-5 flex">
+                        <div class=" px-5 flex TodayTaskSection">
+
+                            <button class=" taskBtn">
+                                <span class=" taskBtnCategory">School</span>
+                                <div class=" taskBtnName">Tugas
+                                    Dari
+                                    Bu Guru</div>
+                                <span class="  taskBtnDate">
+                                    <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
+                                </span>
+                            </button>
+
+
+
+
+
+                            <!-- pelengkap -->
+                            <div class="pr-6">
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- to Do task -->
+                <div>
+                    <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">To Do <span
+                            class="pl-2 text-sm">(3)</span></span>
+
+                    <div class=" py-4 overflow-x-auto">
+
+                        <div class=" px-5 flex ToDoTaskSection">
+
+                            <button class=" taskBtn">
+                                <span class=" taskBtnCategory">School</span>
+                                <div class=" taskBtnName">Tugas
+                                    Dari
+                                    Bu Guru</div>
+                                <span class="  taskBtnDate">
+                                    <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
+                                </span>
+                            </button>
+
+
+                            <button class=" taskBtn">
+                                <span class=" taskBtnCategory">School</span>
+                                <div class=" taskBtnName">Tugas
+                                    Dari
+                                    Bu Guru</div>
+                                <span class="  taskBtnDate">
+                                    <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
+                                </span>
+                            </button>
+
+
+
+                            <!-- pelengkap -->
+                            <div class="pr-6">
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- hisory -->
+                <div>
+                    <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">History <span
+                            class="pl-2 text-sm">(3)</span></span>
+
+                    <div class=" py-4 overflow-x-auto">
+
+                        <div class=" px-5 flex HistoryTaskSection">
 
                             <button class=" taskBtn">
                                 <span class=" taskBtnCategory">School</span>
@@ -234,9 +318,9 @@
         $(".pageBtn").removeClass("text-niceBlue");
         $(".btn" + pages[iid]).addClass("text-niceBlue");
 
-        if(iid === 2){
+        if (iid === 2) {
             $(".addBtn").addClass("hidden");
-        }else{
+        } else {
             $(".addBtn").removeClass("hidden");
         }
 
@@ -248,11 +332,78 @@
         ///$('.icon' + pages[iid]).attr("src", "icons/" + pages[iid] + "-active.svg");
 
     }
-    GoToPage(1)
-
-    function GoToAdd(){
+    GoToPage(0)
+    var myTask = JSON.parse(localStorage.getItem("myTask"));
+    function GoToAdd() {
         window.location.href = "task.html"
     }
+
+
+    function buildTaskBtn(data) {
+
+        let date = new Date(data.EndDate);
+        date.setHours(0, 0, 0, 0);
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        let taskBtn = $("<button>").addClass("taskBtn");
+        let taskBtnCategory = $("<span>").addClass("taskBtnCategory");
+        taskBtnCategory.append(data.TaskCategory);
+        taskBtn.append(taskBtnCategory);
+
+        let taskBtnName = $("<div>").addClass("taskBtnName");
+        taskBtnName.append(data.TaskName);
+        taskBtn.append(taskBtnName);
+
+        let section = 0;
+
+        let taskBtnDate = $("<span>").addClass("taskBtnDate");
+        let taskBtnCircle = $("<div>").addClass("taskBtnCircle");
+        if (date.getTime() === today.getTime()) {
+            taskBtnCircle.addClass("bg-niceRed");
+        } else if (date.getTime() > today.getTime()) {
+            taskBtnCircle.addClass("bg-niceGreen");
+            section = 1;
+        } else {
+            taskBtnCircle.addClass("bg-niceBlue");
+            section = 2;
+        }
+        taskBtnDate.append(taskBtnCircle);
+        taskBtnDate.append(date.toDateString());
+        taskBtn.append(taskBtnDate);
+
+        return { task: taskBtn, section: section };
+
+
+
+
+
+    }
+
+    //make task
+    let t = [];
+    $(".TodayTaskSection").empty();
+    $(".ToDoTaskSection").empty();
+    $(".HistoryTaskSection").empty();
+    myTask.forEach(dt => {
+        let task = buildTaskBtn(dt);
+
+
+        console.log(task.section)
+        switch (task.section) {
+            case 0:
+                $(".TodayTaskSection").append(task.task);
+                break;
+            case 1:
+                $(".ToDoTaskSection").append(task.task);
+                break;
+            case 2:
+                $(".HistoryTaskSection").append(task.task);
+                break;
+        }
+
+    })
+
 
 </script>
 
