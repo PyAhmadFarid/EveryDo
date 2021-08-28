@@ -22,7 +22,7 @@
                 <!-- today -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">Today! <span
-                            class="pl-2 text-sm">(3)</span></span>
+                            class="pl-2 text-sm TodayTaskCount">(3)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -59,7 +59,7 @@
                 <!-- to Do task -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">To Do <span
-                            class="pl-2 text-sm">(3)</span></span>
+                            class="pl-2 text-sm ToDoTaskCount">(3)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -105,7 +105,7 @@
                 <!-- hisory -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">History <span
-                            class="pl-2 text-sm">(3)</span></span>
+                            class="pl-2 text-sm HistoryTaskCount">(3)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -333,6 +333,8 @@
 
     }
     GoToPage(0)
+
+    
     var myTask = JSON.parse(localStorage.getItem("myTask"));
     function GoToAdd() {
         window.location.href = "task.html"
@@ -385,6 +387,7 @@
     $(".TodayTaskSection").empty();
     $(".ToDoTaskSection").empty();
     $(".HistoryTaskSection").empty();
+    let count = [0,0,0];
     myTask.forEach(dt => {
         let task = buildTaskBtn(dt);
 
@@ -393,18 +396,28 @@
         switch (task.section) {
             case 0:
                 $(".TodayTaskSection").append(task.task);
+                count[0]+=1;
                 break;
             case 1:
                 $(".ToDoTaskSection").append(task.task);
+                count[1]+=1;
                 break;
             case 2:
                 $(".HistoryTaskSection").append(task.task);
+                count[2]+=1;
                 break;
         }
 
     })
 
+    $(".TodayTaskCount").html("("+count[0]+")");
+    $(".ToDoTaskCount").html("("+count[1]+")");
+    $(".HistoryTaskCount").html("("+count[2]+")");
 
+    let tb = $("<div>").addClass("pr-6");
+    $(".TodayTaskSection").append(tb);
+    $(".ToDoTaskSection").append(tb);
+    $(".HistoryTaskSection").append(tb);
 </script>
 
 </html>
