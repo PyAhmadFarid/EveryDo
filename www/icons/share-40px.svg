@@ -1,0 +1,17 @@
+<svg id="share-40px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1667" data-name="Rectangle 1667" width="24" height="24" transform="translate(227 666)" fill="#505765" stroke="#4e4e4e" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_1666" data-name="Rectangle 1666" width="40" height="40" rx="8" fill="#ebebf6"/>
+  <g id="Mask_Group_41" data-name="Mask Group 41" transform="translate(-219 -658)" clip-path="url(#clip-path)">
+    <g id="share-2" transform="translate(231.286 670.286)">
+      <circle id="Ellipse_21" data-name="Ellipse 21" cx="2.571" cy="2.571" r="2.571" transform="translate(10.286 0)" fill="none" stroke="#4e4e4e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <circle id="Ellipse_22" data-name="Ellipse 22" cx="2.571" cy="2.571" r="2.571" transform="translate(0 6)" fill="none" stroke="#4e4e4e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <circle id="Ellipse_23" data-name="Ellipse 23" cx="2.571" cy="2.571" r="2.571" transform="translate(10.286 12)" fill="none" stroke="#4e4e4e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line id="Line_9" data-name="Line 9" x2="5.854" y2="3.411" transform="translate(4.791 9.866)" fill="none" stroke="#4e4e4e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line id="Line_10" data-name="Line 10" x1="5.846" y2="3.411" transform="translate(4.791 3.866)" fill="none" stroke="#4e4e4e" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

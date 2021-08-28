@@ -1,0 +1,10 @@
+<svg id="file-inactive-16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1651" data-name="Rectangle 1651" width="16" height="16" transform="translate(56 754)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_35" data-name="Mask Group 35" transform="translate(-56 -754)" clip-path="url(#clip-path)">
+    <path id="folder" d="M16,13.818a1.455,1.455,0,0,1-1.455,1.455H2.909a1.455,1.455,0,0,1-1.455-1.455V3.636A1.455,1.455,0,0,1,2.909,2.182H6.545L8,4.364h6.545A1.455,1.455,0,0,1,16,5.818Z" transform="translate(55.273 753.273)" fill="none" stroke="#505765" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.455"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg id="attachment-docs-20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1669" data-name="Rectangle 1669" width="20" height="20" transform="translate(30 684)" fill="#fff" stroke="#b9b9c5" stroke-width="1.5"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_43" data-name="Mask Group 43" transform="translate(-30 -684)" clip-path="url(#clip-path)">
+    <g id="file-text" transform="translate(29.091 683.091)">
+      <path id="Path_839" data-name="Path 839" d="M12.727,1.818H5.455A1.818,1.818,0,0,0,3.636,3.636V18.182A1.818,1.818,0,0,0,5.455,20H16.364a1.818,1.818,0,0,0,1.818-1.818V7.273Z" fill="none" stroke="#b9b9c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_840" data-name="Path 840" d="M12.727,1.818V7.273h5.455" fill="none" stroke="#b9b9c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_11" data-name="Line 11" x1="7.273" transform="translate(7.273 11.818)" fill="none" stroke="#b9b9c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <line id="Line_12" data-name="Line 12" x1="7.273" transform="translate(7.273 15.455)" fill="none" stroke="#b9b9c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Path_841" data-name="Path 841" d="M9.091,8.182H7.273" fill="none" stroke="#b9b9c5" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <title>Task</title>
+</head>
+
+<body>
+    <div class=" w-screen h-screen flex flex-col">
+        <div class="h-full overflow-y-auto">
+            <div class=" flex justify-between m-6">
+                <button>
+                    <img src="icons/back-24px.svg" alt="">
+                </button>
+                <button>
+                    <img src="icons/more-24px.svg" alt="">
+                </button>
+            </div>
+
+            <div class=" font-bold text-2xl text-niceBlue m-7">New Task</div>
+            <div class="m-7 ">
+                <span class="font-bold text-gray-300">Task Name</span>
+                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+            </div>
+            <div class="mx-7 mb-4">
+                <span class="font-bold text-gray-300  ">Task Category</span>
+                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+            </div>
+            <div class="mx-7 flex flex-wrap justify-between">
+                <div class="mt-3 flex-grow">
+                    <span class="font-bold text-gray-300  ">Start Date</span>
+                    <input type="date" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                </div>
+                <div class="mt-3 flex-grow">
+                    <span class="font-bold text-gray-300  ">End Date</span>
+                    <input type="date" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+                </div>
+            </div>
+            <div class="m-7 ">
+                <span class="font-bold text-gray-300  ">Task Description</span>
+                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2">
+            </div>
+            <div class="m-7 ">
+                <span class="font-bold text-gray-300  ">Files</span>
+                <!-- <input type="text" class=" w-full border-2 p-2 rounded-xl mt-2"> -->
+                <div class=" flex justify-center flex-col items-center border border-dashed p-4 mt-2">
+                    <img src="icons/upload-24px.svg" alt="">
+                    <button class="p-2 border-niceBlue rounded-xl border text-niceBlue m-3">Browse files to upload</button>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
+            <button class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
