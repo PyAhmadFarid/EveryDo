@@ -22,7 +22,7 @@
                 <!-- today -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">Today! <span
-                            class="pl-2 text-sm TodayTaskCount">(3)</span></span>
+                            class="pl-2 text-sm TodayTaskCount">(0)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -59,7 +59,7 @@
                 <!-- to Do task -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">To Do <span
-                            class="pl-2 text-sm ToDoTaskCount">(3)</span></span>
+                            class="pl-2 text-sm ToDoTaskCount">(0)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -86,17 +86,9 @@
                                 </span>
                             </button>
 
-
-
                             <!-- pelengkap -->
                             <div class="pr-6">
                             </div>
-
-
-
-
-
-
 
                         </div>
                     </div>
@@ -105,7 +97,7 @@
                 <!-- hisory -->
                 <div>
                     <span class=" text-niceBlack items-start flex mx-7 font-bold text-xl">History <span
-                            class="pl-2 text-sm HistoryTaskCount">(3)</span></span>
+                            class="pl-2 text-sm HistoryTaskCount">(0)</span></span>
 
                     <div class=" py-4 overflow-x-auto">
 
@@ -131,11 +123,6 @@
                                     <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
                                 </span>
                             </button>
-
-
-
-
-
 
 
                             <!-- pelengkap -->
@@ -276,6 +263,7 @@
 
 
             </div>
+            
             <div class="page profile">
                 <div class="h-full overflow-y-auto">
                     <div class=" flex justify-between m-6">
@@ -319,7 +307,7 @@
         </div>
 
         <button class=" absolute bottom-28 right-5 addBtn" onclick="GoToAdd()">
-            <img src="icons/add_task-44px.svg" alt="">
+            <img class=" w-20 h-20" src="icons/add_task-44px.svg" alt="">
         </button>
 
         <div class=" h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar">
@@ -369,10 +357,10 @@
     }
     GoToPage(0)
 
-    
+
     var myTask = JSON.parse(localStorage.getItem("myTask"));
     function GoToAdd() {
-        window.location.href = "task.html"
+        window.location.href = "addTask.html"
     }
 
 
