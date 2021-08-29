@@ -14,7 +14,7 @@
     <div class=" w-screen h-screen flex flex-col">
         <div class="h-full overflow-y-auto">
             <div class=" flex justify-between m-6">
-                <button>
+                <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
                 </button>
             </div>
@@ -64,5 +64,10 @@
     </div>
 
 </body>
+<script>
+    function GoToBack(){
+        window.history.back();
+    }
+</script>
 
 </html>

@@ -10,11 +10,29 @@
     <title>EveryDo</title>
 </head>
 
-<body>
+<body class=" hidden">
     <div class=" w-screen h-screen flex flex-col">
 
         <div class="h-full overflow-y-auto">
 
+            <div class="page new text-niceBlack">
+                <h1 class=" font-bold text-2xl text-niceBlue m-7">Hello, Guest!</h1>
+                <img class=" m-auto" src="img/emptystate_noresult.png" alt="">
+                <div class=" text-center p-7">
+                    <div class=" font-bold text-2xl mb-3">
+                        You've no task
+                    </div>
+                    <p class="mb-3">
+                        Create your first task or you can login with your existing account.
+                    </p>
+                </div>
+                <div class=" w-full px-7">
+                    <a href="login.html" class=" block text-center bg-niceBlue rounded-2xl w-full p-4 font-bold text-white">
+                        Login
+                    </a>
+                </div>
+
+            </div>
 
             <div class="page home">
                 <h1 class=" font-bold text-2xl text-niceBlue m-7">Hello, Guest!</h1>
@@ -28,7 +46,7 @@
 
                         <div class=" px-5 flex TodayTaskSection">
 
-                            <button class=" taskBtn">
+                            <!-- <button class=" taskBtn">
                                 <span class=" taskBtnCategory">School</span>
                                 <div class=" taskBtnName">Tugas
                                     Dari
@@ -36,7 +54,7 @@
                                 <span class="  taskBtnDate">
                                     <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
                                 </span>
-                            </button>
+                            </button> -->
 
 
 
@@ -65,7 +83,7 @@
 
                         <div class=" px-5 flex ToDoTaskSection">
 
-                            <button class=" taskBtn">
+                            <!-- <button class=" taskBtn">
                                 <span class=" taskBtnCategory">School</span>
                                 <div class=" taskBtnName">Tugas
                                     Dari
@@ -84,7 +102,7 @@
                                 <span class="  taskBtnDate">
                                     <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
                                 </span>
-                            </button>
+                            </button> -->
 
                             <!-- pelengkap -->
                             <div class="pr-6">
@@ -143,12 +161,14 @@
 
             <div class="page mytask flex flex-col">
                 <div class="px-6 pt-10 w-full bg-white">
-                    <input placeholder="I want to search..." type="text" class=" py-2 px-3 rounded-lg w-full border border-gray-300">
-                    <img class="  transform -translate-x-5 -translate-y-8 float-right" src="icons/search-20px.svg" alt="">
+                    <input placeholder="I want to search..." type="text"
+                        class=" py-2 px-3 rounded-lg w-full border border-gray-300">
+                    <img class="  transform -translate-x-5 -translate-y-8 float-right" src="icons/search-20px.svg"
+                        alt="">
                 </div>
                 <div class="flex flex-wrap px-4 justify-center overflow-y-auto pb-10 MyTaskSection">
 
-<!-- 
+                    <!-- 
                     <button class=" taskBtn">
                         <span class=" taskBtnCategory">School</span>
                         <div class=" taskBtnName">Tugas
@@ -158,7 +178,7 @@
                             <div class="taskBtnCircle bg-niceRed "></div> till 28 Aug 2021
                         </span>
                     </button> -->
-                 
+
                 </div>
 
 
@@ -166,7 +186,7 @@
 
 
             </div>
-            
+
             <div class="page profile">
                 <div class="h-full overflow-y-auto">
                     <div class=" flex justify-between m-6">
@@ -174,35 +194,45 @@
                             <img src="icons/back-24px.svg" alt="">
                         </button>
                     </div>
-                    
+
                     <div class="m-7 ">
-                        <img src="img/jokowi.jpg" alt="foto-profile" class="mx-auto h-40 w-40 rounded-full">    
+                        <img src="img/jokowi.jpg" alt="foto-profile" class="mx-auto h-40 w-40 rounded-full">
                     </div>
                     <div class=" font-bold text-2xl text-niceBlue mx-7 text-center">Fini Charista</div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Name</span>
-                        <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="name" placeholder="Your Name" required>
+                        <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="name"
+                            placeholder="Your Name" required>
                     </div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Email</span>
-                        <input type="email" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="email" placeholder="ex: youremail@gmail.com" required>
+                        <input type="email" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="email"
+                            placeholder="ex: youremail@gmail.com" required>
                     </div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Email</span>
-                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2"
+                            name="password"
+                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                            required>
                     </div>
                     <div class="mx-7 mb-4">
                         <span class="font-bold text-gray-300">Re-Type Password</span>
-                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="repassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2"
+                            name="repassword"
+                            placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+                            required>
                     </div>
                     <div class="mt-7 mx-7">
-                        <button class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Save Changes</button>
+                        <button class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Save
+                            Changes</button>
                     </div>
                     <div class="mx-7 pb-6">
-                        <button class="mt-4 py-4 bg-gray-100 text-blue-700 font-bold h-full w-full rounded-2xl">Logout</button>
+                        <button
+                            class="mt-4 py-4 bg-gray-100 text-blue-700 font-bold h-full w-full rounded-2xl">Logout</button>
                     </div>
-        
-        
+
+
                 </div>
             </div>
 
@@ -236,7 +266,7 @@
 </body>
 
 <script>
-    var pages = ["home", "mytask", "profile"]
+    var pages = ["home", "mytask", "profile", "new"]
     function GoToPage(iid) {
         $(".page").addClass(" hidden");
         $("." + pages[iid]).removeClass(" hidden");
@@ -250,6 +280,12 @@
             $(".addBtn").removeClass("hidden");
         }
 
+        if ((localStorage.getItem("myTask") == undefined) && (localStorage.getItem("user") == undefined) && (iid === 0)) {
+            $(".page").addClass(" hidden");
+            $("." + pages[3]).removeClass(" hidden");
+
+        }
+
         ///
         //pages.forEach((i) => {
         //    $(".icon" + i).attr("src", "icons/" + i + ".svg");
@@ -258,7 +294,7 @@
         ///$('.icon' + pages[iid]).attr("src", "icons/" + pages[iid] + "-active.svg");
 
     }
-    GoToPage(1)
+    GoToPage(0)
 
 
     var myTask = JSON.parse(localStorage.getItem("myTask"));
@@ -266,8 +302,8 @@
         window.location.href = "addTask.html"
     }
 
-    function GoToTask(id){
-        window.location.href = "task.html?id="+id;
+    function GoToTask(id) {
+        window.location.href = "task.html?id=" + id;
     }
 
     function buildTaskBtn(data) {
@@ -278,7 +314,7 @@
         today.setHours(0, 0, 0, 0);
 
         let taskBtn = $("<button>").addClass("taskBtn");
-        taskBtn.attr('onclick',"GoToTask("+data.id+")");
+        taskBtn.attr('onclick', "GoToTask(" + data.id + ")");
         let taskBtnCategory = $("<span>").addClass("taskBtnCategory");
         taskBtnCategory.append(data.TaskCategory);
         taskBtn.append(taskBtnCategory);
@@ -319,38 +355,45 @@
     $(".ToDoTaskSection").empty();
     $(".HistoryTaskSection").empty();
     $(".MyTaskSection").empty();
-    let count = [0,0,0];
-    myTask.forEach(dt => {
-        let task = buildTaskBtn(dt);
-        $(".MyTaskSection").append(task.task.clone());
+    let count = [0, 0, 0];
+    if (localStorage.getItem("myTask") != undefined) {
+        myTask.forEach(dt => {
+            let task = buildTaskBtn(dt);
+            $(".MyTaskSection").append(task.task.clone());
 
-        console.log(task.section)
-        switch (task.section) {
-            case 0:
-                $(".TodayTaskSection").append(task.task);
-                count[0]+=1;
-                break;
-            case 1:
-                $(".ToDoTaskSection").append(task.task);
-                count[1]+=1;
-                break;
-            case 2:
-                $(".HistoryTaskSection").append(task.task);
-                count[2]+=1;
-                break;
-        }
-        
+            console.log(task.section)
+            switch (task.section) {
+                case 0:
+                    $(".TodayTaskSection").append(task.task);
+                    count[0] += 1;
+                    break;
+                case 1:
+                    $(".ToDoTaskSection").append(task.task);
+                    count[1] += 1;
+                    break;
+                case 2:
+                    $(".HistoryTaskSection").append(task.task);
+                    count[2] += 1;
+                    break;
+            }
 
-    })
 
-    $(".TodayTaskCount").html("("+count[0]+")");
-    $(".ToDoTaskCount").html("("+count[1]+")");
-    $(".HistoryTaskCount").html("("+count[2]+")");
+        })
+    }
+    $(".TodayTaskCount").html("(" + count[0] + ")");
+    $(".ToDoTaskCount").html("(" + count[1] + ")");
+    $(".HistoryTaskCount").html("(" + count[2] + ")");
 
     //let tb = $("<div>").addClass("pr-6");
     $(".TodayTaskSection").append($("<div class='pr-6'>"));
     $(".ToDoTaskSection").append($("<div class='pr-6'>"));
     $(".HistoryTaskSection").append($("<div class='pr-6'>"));
+
+
+    $(document).ready(function () {
+        $('body').show();
+        //$('msg').hide();
+    });
 </script>
 
 </html>
