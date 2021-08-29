@@ -11,7 +11,33 @@
 </head>
 
 <body>
+    <div class=" absolute w-screen h-screen z-10 tools pointer-events-none overflow-hidden">
+
+        <div
+            class=" rounded-t-2xl bg-white bottom-0 absolute w-full z-20 transform transition-all hidenTools translate-y-full">
+            <div class="px-10 py-5">
+                <div class=" m-auto w-10 h-2 rounded-full bg-gray-800"></div>
+                <div class=" font-bold text-2xl py-3 text-gray-700 pt-10">
+                    Additional Menu
+                </div>
+                <button class=" w-full border-b text-left py-3">Check List File</button>
+                <button class=" w-full border-b text-left py-3">Delete Task</button>
+            </div>
+            <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
+                <button onclick="setTools()"
+                    class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Close</button>
+            </div>
+        </div>
+
+
+        <div class="bg-black w-screen h-screen absolute blackScreen transition-all opacity-0" onclick="setTools()">
+
+        </div>
+    </div>
+
+
     <div class=" w-screen h-screen flex flex-col">
+
 
         <div class="h-full overflow-y-auto">
 
@@ -20,15 +46,15 @@
                 <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
                 </button>
-                <button>
+                <button onclick="setTools()">
                     <img src="icons/more-24px.svg" alt="">
                 </button>
             </div>
 
             <div class="p-7">
-                <span class=" font-bold text-gray-300">School</span>
-                <div class=" font-bold text-2xl text-niceBlack py-2">Mathematics Grade 12</div>
-                <span class=" font-bold text-gray-300">25 Aug 2021 - 10 Sep 2021</span>
+                <span class=" font-bold text-gray-300 TaskCategory">School</span>
+                <div class=" font-bold text-2xl text-niceBlack py-2 TaskName">Mathematics Grade 12</div>
+                <span class=" font-bold text-gray-300 TaskDate">25 Aug 2021 - 10 Sep 2021</span>
             </div>
             <div class=" flex items-center text-lg px-7">
                 <img class=" h-10 w-10 rounded-full mr-2" src="img/jokowi.jpg" alt="">
@@ -36,14 +62,15 @@
             </div>
             <div class="p-7">
                 <span class=" font-bold text-gray-300">Descriptions</span>
-                <p class=" text-lg pt-2">
+                <p class=" text-lg pt-2 TaskDescriptions">
                     Make sure all task is written on a book or paper. Submit it on time!
                 </p>
             </div>
 
             <div class=" px-7 pb-7">
                 <span class=" font-bold text-gray-300">Todo</span>
-                <div class=" flex flex-col text-lg">
+                <div class=" flex flex-col text-lg subTask">
+
                     <a class=" font-bold text-niceBlack pt-2" href="">
                         Task 1 : Research About Algorithm
                     </a>
@@ -57,15 +84,17 @@
                 <span class=" font-bold text-gray-300 px-7">Assign</span>
                 <div class="w-full flex overflow-x-auto space-x-3 pt-2">
                     <div class="pl-4"></div>
-                    <img class=" flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
-                    <img class=" flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
-                    <img class=" flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
-                    <button class="flex-none flex w-14 h-14 justify-center items-center bg-blueGray rounded-xl"> 
-                        <img class=" w-14 h-14"  src="icons/share-40px.svg" alt="">
+                    <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
+                    <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
+                    <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
+                    <button class="flex-none flex w-14 h-14 justify-center items-center bg-blueGray rounded-xl">
+                        <img class=" w-14 h-14" src="icons/share-40px.svg" alt="">
                     </button>
                     <div class="pr-4"></div>
                 </div>
             </div>
+
+
             <div class="p-7">
                 <span class=" font-bold text-gray-300">Attachments</span>
             </div>
@@ -76,16 +105,80 @@
 
         </div>
 
-        <button class=" absolute bottom-28 right-5 addBtn" onclick="GoToAdd()">
+        <button class=" absolute bottom-28 right-5 addBtn" onclick="GoToAddSubTask()">
             <img class=" w-20 h-20" src="icons/add_task-44px.svg" alt="">
         </button>
 
         <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
-            <button
-                class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Join</button>
+            <button class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Join</button>
         </div>
     </div>
 
 </body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const taskId = urlParams.get('id');
+    console.log(taskId)
+
+    function GoToAddSubTask(){
+        window.location.href = "addSubTask.html?id="+taskId;
+    }
+    function GoToBack() {
+        //console.log(window.history);
+        window.location.href = "index.html"
+    }
+
+    let myTask = JSON.parse(localStorage.getItem("myTask"))[taskId];
+
+
+    console.log(myTask)
+    $(".TaskCategory").html(myTask.TaskCategory);
+    $(".TaskName").html(myTask.TaskName);
+    const sdate = new Date(myTask.StartDate).toDateString()
+    const ndate = new Date(myTask.EndDate).toDateString()
+    $(".TaskDate").html(sdate + " - " + ndate);
+    $(".TaskDescriptions").html(myTask.TaskDescription);
+
+
+
+    var toolsActive = false;
+    function setTools() {
+        toolsActive = !toolsActive;
+        if (toolsActive) {
+            $(".tools").removeClass("pointer-events-none");
+            $(".hidenTools").removeClass("translate-y-full");
+            $(".blackScreen").removeClass("opacity-0");
+            $(".blackScreen").addClass("opacity-50");
+
+
+        } else {
+            $(".tools").addClass("pointer-events-none");
+            $(".hidenTools").addClass("translate-y-full");
+            $(".blackScreen").addClass("opacity-0");
+            $(".blackScreen").removeClass("opacity-50");
+        }
+
+
+
+    }
+    
+    
+    
+    $(".subTask").empty()
+    if(myTask.subTask !== undefined){
+        console.log("aaa")
+        myTask.subTask.forEach(e=>{
+            let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
+            subs.html(e.TaskName);
+            $(".subTask").append(subs);
+        })
+    }
+
+
+    if(myTask.shared === false){
+        $(".joinUserPhoto").addClass("hidden");
+    }
+
+</script>
 
 </html>

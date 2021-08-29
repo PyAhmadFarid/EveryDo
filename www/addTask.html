@@ -35,7 +35,8 @@
             <div class="mx-7 flex flex-wrap justify-between">
                 <div class="mt-3 mr-3 flex-grow">
                     <span class="font-bold text-gray-300  ">Start Date</span>
-                    <input type="date" class=" inpStartDate bg-white w-full border border-niceBlack p-2 rounded-xl mt-2">
+                    <input type="date"
+                        class=" inpStartDate bg-white w-full border border-niceBlack p-2 rounded-xl mt-2">
                 </div>
                 <div class="mt-3 flex-grow">
                     <span class="font-bold text-gray-300  ">End Date</span>
@@ -51,7 +52,8 @@
                 <!-- <input type="text" class=" w-full border-2 p-2 rounded-xl mt-2"> -->
                 <div class="overflow-hidden  flex justify-center flex-col items-center border-2 border-dashed p-4 mt-2">
                     <img src="icons/upload-24px.svg" alt="">
-                    <button onclick="importData()" type="file" class="btnAddFile py-2 px-3 border-niceBlue rounded-xl border text-niceBlue m-3">Browse
+                    <button onclick="importData()" type="file"
+                        class="btnAddFile py-2 px-3 border-niceBlue rounded-xl border text-niceBlue m-3">Browse
                         files to
                         upload</button>
                 </div>
@@ -60,7 +62,8 @@
 
         </div>
         <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
-            <button onclick="SubmitTask()" class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
+            <button onclick="SubmitTask()"
+                class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
         </div>
     </div>
 
@@ -73,42 +76,43 @@
         window.location.href = "index.html"
     }
 
-    function AddTask(data){
-        if(localStorage.getItem("myTask") === null){
-            localStorage.setItem("myTask","[]");
-        }else{
-            let mytask = JSON.parse(localStorage.getItem("myTask"));
-            let TaskId = mytask.length;
-            data["id"] = TaskId+1;
-            mytask.push(data);
-            localStorage.setItem("myTask",JSON.stringify(mytask));
+    function AddTask(data) {
+        if (localStorage.getItem("myTask") === null) {
+            localStorage.setItem("myTask", "[]");
         }
+
+        let mytask = JSON.parse(localStorage.getItem("myTask"));
+        data["id"] = mytask.length;
+        mytask.push(data);
+        localStorage.setItem("myTask", JSON.stringify(mytask));
+
     }
 
     function SubmitTask() {
         console.log(file);
 
 
-        let inps = ["TaskName","TaskCategory","StartDate","EndDate","TaskDescription"]
+        let inps = ["TaskName", "TaskCategory", "StartDate", "EndDate", "TaskDescription"]
         let canAdd = true;
         let data = {}
-        inps.forEach((i)=>{
-            if($(".inp"+i).val() ===  ''){
-                $(".inp"+i).removeClass("border-niceBlack");
-                $(".inp"+i).addClass("border-red-500");
-                
+        inps.forEach((i) => {
+            if ($(".inp" + i).val() === '') {
+                $(".inp" + i).removeClass("border-niceBlack");
+                $(".inp" + i).addClass("border-red-500");
+
                 canAdd = false;
             }
-            data[i] = $(".inp"+i).val()
+            data[i] = $(".inp" + i).val()
         })
 
-        if(canAdd){
-            console.log(data);
+        if (canAdd) {
+            data["shared"] = false;
+            data["subTask"] = [];
             AddTask(data);
 
             GoToBack();
         }
-        
+
     }
 
     function importData() {
