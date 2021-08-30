@@ -163,7 +163,7 @@
             <div class="page mytask flex flex-col">
                 <div class="px-6 pt-10 w-full bg-white">
                     <input placeholder="I want to search..." type="text"
-                        class=" py-2 px-3 rounded-lg w-full border border-gray-300">
+                        class=" py-2 px-3 rounded-lg w-full border border-gray-300" onkeyup="filter()" id="value">
                     <img class="  transform -translate-x-5 -translate-y-8 float-right" src="icons/search-20px.svg"
                         alt="">
                 </div>
@@ -431,6 +431,21 @@
         $('body').show();
         //$('msg').hide();
     });
+
+    // Search Tugas
+    function filter() {
+      var value,name,task,i;
+      value = document.getElementById("value").value.toUpperCase();
+      task = document.getElementsByClassName("taskBtn");
+      for(i=0;i<task.length;i++){
+        name = task[i].getElementsByClassName("taskBtnName");
+        if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
+            task[i].style.display = "flex";
+        }else{
+            task[i].style.display = "none";
+        }
+      }
+    }
 </script>
 
 </html>
