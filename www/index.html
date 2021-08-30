@@ -36,7 +36,7 @@
             </div>
 
             <div class="page home">
-                <h1 class=" font-bold text-2xl text-niceBlue m-7">Hello, Guest!</h1>
+                <h1 class=" font-bold text-2xl text-niceBlue m-7">Hello, <span class="Name">Guest</span> !</h1>
 
                 <!-- today -->
                 <div>
@@ -246,17 +246,17 @@
 
         <div class=" h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar">
             <button onclick="GoToPage(0)"
-                class="btnhome pageBtn flex flex-col items-center space-y-2 font-medium text-sm px-5 ">
+                class="btnhome pageBtn flex flex-col items-center space-y-2 font-medium text-xs px-7 ">
                 <img class=" w-5 h-5 pageIcon iconhome" src="icons/home.svg" alt="home">
                 <span>Home</span>
             </button>
             <button onclick="GoToPage(1)"
-                class="btnmytask pageBtn flex flex-col items-center space-y-2 font-medium text-sm px-5">
+                class="btnmytask pageBtn flex flex-col items-center space-y-2 font-medium text-xs px-7">
                 <img class=" w-5 h-5 pageIcon iconmytask" src="icons/mytask.svg" alt="mytask">
                 <span>My Task</span>
             </button>
             <button onclick="GoToPage(2)"
-                class="btnprofile pageBtn flex flex-col items-center space-y-2 font-medium text-sm px-5">
+                class="btnprofile pageBtn flex flex-col items-center space-y-2 font-medium text-xs px-7">
                 <img class=" w-5 h-5 pageIcon iconprofile" src="icons/profile.svg" alt="profile">
                 <span>Profile</span>
             </button>
@@ -271,6 +271,11 @@
     let User = null;
     if (localStorage.getItem("user") != undefined) {
         User = JSON.parse(localStorage.getItem("user"));
+        $(".userNameBaner").html(User.user.name);
+        $(".userName").val(User.user.name);
+        $(".Name").html(User.user.name);
+        $(".userEmail").val(User.user.email);
+
     }
 
 
@@ -281,9 +286,7 @@
             window.location.href = "login.html";
         } else {
             if (User != null) {
-                $(".userNameBaner").html(User.user.name);
-                $(".userName").val(User.user.name);
-                $(".userEmail").val(User.user.email);
+
             }
         }
 
@@ -319,19 +322,52 @@
     }
     GoToPage(0)
 
+    function getUserProfile(){
+        $.get({
+            url:"https://everydo.herokuapp.com/api/user/user-profile",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: dt => {
+                console.log(dt);
+            }
+        })
+    }
+
+    function refreshtoken() {
+        $.post({
+            url: "https://everydo.herokuapp.com/api/user/refresh-token",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: dt => {
+                console.log(dt);
+                User = dt;
+            }
+
+        })
+    }
+
+
     function logout() {
+        console.log("logout");
         $.post({
             url: "https://everydo.herokuapp.com/api/user/logout",
             headers: { "Authorization": "Bearer " + User.access_token },
             success: (dt) => {
-                if(dt.message === "User successfully signed out"){
+                console.log(dt);
+                if (dt.message === "User successfully signed out") {
                     console.log(dt);
                     User = localStorage.removeItem("user");
                     location.reload();
+                } else if (dt.status === "Token is Expired") {
+                    //refresh token
+                    refreshtoken()
+                    logout();
+                }else{
+                    localStorage.removeItem("user");
+                    location.reload();
                 }
-                
+
             }
         })
+
     }
 
     var myTask = JSON.parse(localStorage.getItem("myTask"));
@@ -343,6 +379,8 @@
         window.location.href = "task.html?id=" + id;
     }
 
+
+    
     function buildTaskBtn(data) {
 
         let date = new Date(data.EndDate);
