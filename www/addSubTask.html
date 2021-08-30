@@ -46,13 +46,19 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
-
+    let idx = null;
     function GoToBack(){
         window.history.back()
     }
 
     let allMyTask = JSON.parse(localStorage.getItem("myTask"))
-    let myTask = allMyTask[taskId];
+    let myTask = null;
+    allMyTask.forEach((e,i)=>{
+        if(e.id == taskId){
+            myTask = e;
+            idx = i
+        }
+    })
 
     if(myTask.subTask === undefined){
         myTask["subTask"] = []
@@ -77,7 +83,7 @@
         if(canAdd){
             data["id"] = myTask.subTask.length;
             myTask.subTask.push(data);
-            allMyTask[taskId] = myTask;
+            allMyTask[idx] = myTask;
             localStorage.setItem("myTask",JSON.stringify(allMyTask));
             GoToBack();
         }

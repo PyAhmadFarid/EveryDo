@@ -22,22 +22,22 @@
             <div class=" font-bold text-2xl text-niceBlue m-7">Be part of EveryDo!</div>
             <div class="m-7 ">
                 <span class="font-bold text-gray-300">Name</span>
-                <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="name" placeholder="Your Name" required>
+                <input type="text" class=" inpname w-full border border-niceBlack p-2 rounded-xl mt-2" name="name" placeholder="Your Name" required>
             </div>
             <div class="m-7 ">
                 <span class="font-bold text-gray-300">Email</span>
-                <input type="email" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="email" placeholder="ex: youremail@gmail.com" required>
+                <input type="email" class="inpemail w-full border border-niceBlack p-2 rounded-xl mt-2" name="email" placeholder="ex: youremail@gmail.com" required>
             </div>
             <div class="m-7 ">
-                <span class="font-bold text-gray-300">Email</span>
-                <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+                <span class="font-bold text-gray-300">Password</span>
+                <input type="password" class="inppassword w-full border border-niceBlack p-2 rounded-xl mt-2" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
             </div>
             <div class="mx-7 mb-4">
                 <span class="font-bold text-gray-300">Re-Type Password</span>
-                <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="repassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+                <input type="password" class="inprepass w-full border border-niceBlack p-2 rounded-xl mt-2" name="repassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
             </div>
             <div class="mt-7 mx-7 border-b-2 pb-6">
-                <button class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Register</button>
+                <button onclick="register()" class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Register</button>
             </div>
             <div class="mx-7 flex justify-center mb-4 -mt-3">
                 <p class="font-bold text-center text-blue-700 bg-white px-4">OR</p>
@@ -57,5 +57,41 @@
     </div>
 
 </body>
+<script>
+
+    function register(){
+        const inps = ["name","email","password"];
+        canregister = true;
+        let data = {}
+        inps.forEach(e=>{
+            if($(".inp"+e).val() === ''){
+                $(".inp" + e).removeClass("border-niceBlack");
+                $(".inp" + e).addClass("border-red-500"); 
+                canregister = false
+            }
+            data[e] = $(".inp"+e).val();
+        });
+        if(data['password'] !== $(".inprepass").val()){
+            $(".inprepass").removeClass("border-niceBlack");
+            $(".inprepass").addClass("border-red-500"); 
+            canregister = false;
+        }
+        console.log(data);
+
+        if(canregister){
+            $.post({
+                url:"https://everydo.herokuapp.com/api/user/register",
+                data:data,
+                success:(e)=>{
+                    console.log(e);
+                    window.location.href = "login.html"
+                }
+            })
+        }
+
+    }
+
+
+</script>
 
 </html>

@@ -27,7 +27,8 @@
                     </p>
                 </div>
                 <div class=" w-full px-7">
-                    <a href="login.html" class=" block text-center bg-niceBlue rounded-2xl w-full p-4 font-bold text-white">
+                    <a href="login.html"
+                        class=" block text-center bg-niceBlue rounded-2xl w-full p-4 font-bold text-white">
                         Login
                     </a>
                 </div>
@@ -198,19 +199,19 @@
                     <div class="m-7 ">
                         <img src="img/jokowi.jpg" alt="foto-profile" class="mx-auto h-40 w-40 rounded-full">
                     </div>
-                    <div class=" font-bold text-2xl text-niceBlue mx-7 text-center">Fini Charista</div>
+                    <div class=" font-bold text-2xl text-niceBlue mx-7 text-center userNameBaner">Fini Charista</div>
                     <div class="m-7 ">
-                        <span class="font-bold text-gray-300">Name</span>
-                        <input type="text" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="name"
-                            placeholder="Your Name" required>
+                        <span class="font-bold text-gray-300 ">Name</span>
+                        <input type="text" class="userName w-full border border-niceBlack p-2 rounded-xl mt-2"
+                            name="name" placeholder="Your Name" required>
                     </div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Email</span>
-                        <input type="email" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="email"
-                            placeholder="ex: youremail@gmail.com" required>
+                        <input type="email" class="userEmail w-full border border-niceBlack p-2 rounded-xl mt-2"
+                            name="email" placeholder="ex: youremail@gmail.com" required>
                     </div>
                     <div class="m-7 ">
-                        <span class="font-bold text-gray-300">Email</span>
+                        <span class="font-bold text-gray-300">Password</span>
                         <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2"
                             name="password"
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
@@ -228,7 +229,7 @@
                             Changes</button>
                     </div>
                     <div class="mx-7 pb-6">
-                        <button
+                        <button onclick="logout()"
                             class="mt-4 py-4 bg-gray-100 text-blue-700 font-bold h-full w-full rounded-2xl">Logout</button>
                     </div>
 
@@ -266,10 +267,34 @@
 </body>
 
 <script>
+
+    let User = null;
+    if (localStorage.getItem("user") != undefined) {
+        User = JSON.parse(localStorage.getItem("user"));
+    }
+
+
     var pages = ["home", "mytask", "profile", "new"]
     function GoToPage(iid) {
-        $(".page").addClass(" hidden");
-        $("." + pages[iid]).removeClass(" hidden");
+
+        if ((localStorage.getItem("user") == undefined) && (iid === 2)) {
+            window.location.href = "login.html";
+        } else {
+            if (User != null) {
+                $(".userNameBaner").html(User.user.name);
+                $(".userName").val(User.user.name);
+                $(".userEmail").val(User.user.email);
+            }
+        }
+
+        if ((localStorage.getItem("myTask") == undefined) && (localStorage.getItem("user") == undefined) && (iid === 0)) {
+            $(".page").addClass(" hidden");
+            $("." + pages[3]).removeClass(" hidden");
+
+        } else {
+            $(".page").addClass(" hidden");
+            $("." + pages[iid]).removeClass(" hidden");
+        }
 
         $(".pageBtn").removeClass("text-niceBlue");
         $(".btn" + pages[iid]).addClass("text-niceBlue");
@@ -280,11 +305,9 @@
             $(".addBtn").removeClass("hidden");
         }
 
-        if ((localStorage.getItem("myTask") == undefined) && (localStorage.getItem("user") == undefined) && (iid === 0)) {
-            $(".page").addClass(" hidden");
-            $("." + pages[3]).removeClass(" hidden");
 
-        }
+
+
 
         ///
         //pages.forEach((i) => {
@@ -296,6 +319,20 @@
     }
     GoToPage(0)
 
+    function logout() {
+        $.post({
+            url: "https://everydo.herokuapp.com/api/user/logout",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: (dt) => {
+                if(dt.message === "User successfully signed out"){
+                    console.log(dt);
+                    User = localStorage.removeItem("user");
+                    location.reload();
+                }
+                
+            }
+        })
+    }
 
     var myTask = JSON.parse(localStorage.getItem("myTask"));
     function GoToAdd() {

@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body class=" hidden">
     <div class=" absolute w-screen h-screen z-10 tools pointer-events-none overflow-hidden">
 
         <div
@@ -118,6 +118,9 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
+
+    let idx = null;
+
     console.log(taskId)
 
     function GoToAddSubTask(){
@@ -128,8 +131,16 @@
         window.location.href = "index.html"
     }
 
-    let myTask = JSON.parse(localStorage.getItem("myTask"))[taskId];
 
+    
+    let allTask = JSON.parse(localStorage.getItem("myTask"));
+    let myTask = null;
+    allTask.forEach(e=>{
+        if(e.id == taskId){
+            myTask = e;
+            idx = e.id
+        }
+    })
 
     console.log(myTask)
     $(".TaskCategory").html(myTask.TaskCategory);
@@ -180,6 +191,10 @@
         $(".user").hide();
     }
 
+    $(document).ready(function () {
+        $('body').show();
+        //$('msg').hide();
+    });
 </script>
 
 </html>

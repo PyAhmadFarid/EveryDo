@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/index.css" rel="stylesheet">
     <script src="js/jquery-3.6.0.min.js"></script>
+    
     <title>Login</title>
 </head>
 
@@ -22,11 +23,11 @@
             <div class=" font-bold text-2xl text-niceBlue m-7">Welcome Back!</div>
             <div class="m-7 ">
                 <span class="font-bold text-gray-300">Email</span>
-                <input type="email" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="email" placeholder="ex: youremail@gmail.com" required>
+                <input type="email" class="inpemail w-full border border-niceBlack p-2 rounded-xl mt-2" name="email" placeholder="ex: youremail@gmail.com" required>
             </div>
             <div class="mx-7 mb-4">
                 <span class="font-bold text-gray-300  ">Password</span>
-                <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+                <input type="password" class="inppassword w-full border border-niceBlack p-2 rounded-xl mt-2" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
             </div>
             <div class="mx-7 flex flex-wrap justify-between">
                 <div class="mt-3 inset-y-0 right-0 flex items-center">
@@ -44,19 +45,19 @@
                 </div>
             </div>
             <div class="mt-7 mx-7 border-b-2 pb-6">
-                <button class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Login</button>
+                <button onclick="login()" class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Login</button>
             </div>
             <div class="mx-7 flex justify-center mb-4 -mt-3">
                 <p class="font-bold text-center text-blue-700 bg-white px-4">OR</p>
             </div>
             <div class="mx-16 pb-6">
-                <button class="bg-niceBlue text-white h-full w-full">
+                <button onclick="loginGoogle()" class="bg-niceBlue text-white h-full w-full">
                     <img class="float-left py-4 px-4 bg-gray-50" src="icons/google.svg" alt="">
                     <span class="flex justify-center py-4 text-sm">Sign In with Google</span>
                 </button>
             </div>
             <div class="mx-7 mb-4 text-center text-sm">
-                <p>Don't have account yet? <a href="#" class="text-blue-700 font-bold">Sign Up</a></p>
+                <p>Don't have account yet? <a href="register.html" class="text-blue-700 font-bold">Sign Up</a></p>
             </div>
 
 
@@ -64,7 +65,40 @@
     </div>
 
 </body>
+<script type="text/javascript" src="cordova.js"></script>
 <script>
+    function login(){
+        let inps = ["email","password"]
+        let canlogin = true;
+        let data = {};
+        inps.forEach(e=>{
+            if($(".inp"+e).val() === ''){
+                $(".inp" + e).removeClass("border-niceBlack");
+                $(".inp" + e).addClass("border-red-500");   
+                canlogin = false;
+            }
+            data[e] = $(".inp"+e).val()
+        })
+
+        
+
+        if(canlogin){
+            console.log(data);
+            $.post({
+                url:"https://everydo.herokuapp.com/api/user/login",
+                data:data,
+                success:(dt)=>{
+                    console.log(dt)
+                    localStorage.setItem("user",JSON.stringify(dt));
+                    window.location.href="index.html"
+                }
+                
+            })
+        }
+    }
+    function loginGoogle(){
+        cordova.InAppBrowser.open("https://everydo.herokuapp.com/api/user/google", '_blank', 'location=yes');
+    }
     function GoToBack(){
         window.history.back();
     }
