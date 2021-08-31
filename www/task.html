@@ -20,7 +20,7 @@
                 <div class=" font-bold text-2xl py-3 text-gray-700 pt-10">
                     Additional Menu
                 </div>
-                <button class=" w-full border-b text-left py-3">Check List File</button>
+                <button onclick="goToCheckListFile()" class=" w-full border-b text-left py-3">Check List File</button>
                 <button class=" w-full border-b text-left py-3">Delete Task</button>
             </div>
             <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
@@ -56,8 +56,8 @@
                 <div class=" font-bold text-2xl text-niceBlack py-2 TaskName">Mathematics Grade 12</div>
                 <span class=" font-bold text-gray-300 TaskDate">25 Aug 2021 - 10 Sep 2021</span>
             </div>
-            <div class=" flex items-center text-lg px-7 user">
-                <img class=" h-10 w-10 rounded-full mr-2" src="img/jokowi.jpg" alt="">
+            <div class=" items-center text-lg px-7 user hidden">
+                <img class=" h-10 w-10 rounded-full mr-2 inline" src="img/jokowi.jpg" alt="">
                 <span class="userName">Fini Charisa</span>
                 
             </div>
@@ -68,7 +68,7 @@
                 </p>
             </div>
 
-            <div class=" px-7 pb-7">
+            <div class=" px-7 pb-7 todos hidden">
                 <span class=" font-bold text-gray-300">Todo</span>
                 <div class=" flex flex-col text-lg subTask">
 
@@ -96,8 +96,12 @@
             </div>
 
 
-            <div class="p-7">
+            <div class="p-7 attacment hidden">
                 <span class=" font-bold text-gray-300">Attachments</span>
+                <div class="my-3 ">
+                    <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg" alt="attachment-docs">
+                    <p class="pl-7 text-base attacmentfile">Fini_101511513921_Task1.docx</p>
+                </div>
             </div>
 
 
@@ -122,13 +126,13 @@
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
 
-    let User = null;
+    let User;
     if (localStorage.getItem("user") != undefined) {
         User = JSON.parse(localStorage.getItem("user"));
 
     }
 
-    let idx = null;
+    let idx;
 
     console.log(taskId)
 
@@ -140,10 +144,14 @@
         window.location.href = "index.html"
     }
 
+    function goToCheckListFile(){
+        window.location.href = "checkList.html?id="+taskId;
+    }
+
 
     
     let allTask = JSON.parse(localStorage.getItem("myTask"));
-    let myTask = null;
+    let myTask;
     allTask.forEach(e=>{
         if(e.id == taskId){
             myTask = e;
@@ -185,11 +193,15 @@
     
     
     $(".subTask").empty()
-    if(myTask.subTask !== undefined){
-        console.log("aaa")
+    if((myTask.subTask !== undefined) && (myTask.subTask.length !== 0)){
+        $(".todos").show();
         myTask.subTask.forEach(e=>{
             let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
             subs.html(e.TaskName);
+
+            let arrow = 
+            $('<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>');
+            subs.append(arrow);
             $(".subTask").append(subs);
         })
     }
@@ -199,13 +211,23 @@
         $(".joinUserPhoto").hide();
         //$(".user").hide();
     }
-    if((localStorage.getItem('user') !== undefined) || (myTask.create_by === undefined) || (myTask.create_by === User.user.id)){
+
+    if(User){
+        $(".user").show();
         $(".userName").html(User.user.name);
+    }
+
+    if((localStorage.getItem('user') !== undefined) || (myTask.create_by === undefined) || (myTask.create_by === User.user.id)){
+        //
+        
         $(".joinbtn").removeClass("bg-niceBlue");
         $(".joinbtn").addClass("bg-gray-300");
     
-        
-        
+    }
+    if(myTask.file != undefined){
+        $(".attacment").show();
+
+        $(".attacmentfile").html(myTask.file);
     }
 
     $(document).ready(function () {

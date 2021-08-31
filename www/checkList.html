@@ -9,6 +9,7 @@
     <script src="js/jquery-3.6.0.min.js"></script>
     <title>Task</title>
 </head>
+
 <body>
     <div class=" w-screen h-screen flex flex-col">
         <div class="h-full overflow-y-auto">
@@ -24,10 +25,10 @@
                 <span class=" text-sm font-bold text-gray-300 TaskDate">25 Aug 2021 - 10 Sep 2021</span>
             </div>
 
-            <div class=" flex items-center text-lg px-7 user">
-                <img class=" h-10 w-10 rounded-full mr-2" src="img/jokowi.jpg" alt="">
+            <div class=" items-center text-lg px-7 user hidden">
+                <img class=" inline h-10 w-10 rounded-full mr-2 " src="img/jokowi.jpg" alt="">
                 <span class="userName">Fini Charisa</span>
-                
+
             </div>
 
             <div class="px-7 py-5">
@@ -41,24 +42,33 @@
                 <span class=" font-bold text-gray-300">Todo</span>
                 <div class=" flex flex-col text-lg subTask">
 
-                    <a class=" text-base font-bold text-niceBlack pt-2" href="#">
+                    <a onclick="todoOpen(0)" class=" text-base font-bold text-niceBlack pt-2" href="#">
                         Task 1 : Research About Algorithm
                         <!-- SVG icon tidak ada di offlien -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                          </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right rotate-180 transform transition-all todoArow0"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </a>
-                    <div class="my-3">
-                        <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg" alt="attachment-docs">
-                        <p class="pl-7 text-base">Fini_101511513921_Task1.docx</p>
+                    <div class="my-3 todoFiles0 transform transition-all overflow-hidden">
+                        <a href="">
+                            <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg"
+                                alt="attachment-docs">
+                            <p class="pl-7 text-base">Fini_101511513921_Task1.docx</p>
+                        </a>
                     </div>
 
                     <a class=" text-base font-bold text-niceBlack pt-2" href="#">
                         Task 2 : Operational Mathematics
                         <!-- SVG icon tidak ada di offlien -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                          </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -68,8 +78,62 @@
 
 </body>
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const taskId = urlParams.get('id');
 
-    
+    let User = null;
+    if (localStorage.getItem("user") != undefined) {
+        User = JSON.parse(localStorage.getItem("user"));
+
+    }
+
+
+
+    console.log(taskId)
+
+    function GoToBack() {
+        //console.log(window.history);
+        window.history.back();
+    }
+
+
+    let idx = null;
+
+    let allTask = JSON.parse(localStorage.getItem("myTask"));
+    let myTask = null;
+    allTask.forEach(e => {
+        if (e.id == taskId) {
+            myTask = e;
+            idx = e.id
+        }
+    })
+
+    console.log(myTask)
+    $(".TaskCategory").html(myTask.TaskCategory);
+    $(".TaskName").html(myTask.TaskName);
+    const sdate = new Date(myTask.StartDate).toDateString()
+    const ndate = new Date(myTask.EndDate).toDateString()
+    $(".TaskDate").html(sdate + " - " + ndate);
+    $(".TaskDescriptions").html(myTask.TaskDescription);
+
+
+    if (User) {
+        $(".user").show();
+        $(".userName").html(User.user.name);
+    }
+
+    let ids = [true];
+    function todoOpen(id) {
+        ids[id] = !ids[id];
+        if (ids[id]) {
+            $(".todoFiles"+id).removeClass("h-0");
+            $(".todoArow"+id).addClass("rotate-180");
+        }else{
+            $(".todoFiles"+id).addClass("h-0");
+            $(".todoArow"+id).removeClass("rotate-180");
+        }
+    }
 
 </script>
+
 </html>

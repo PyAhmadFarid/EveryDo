@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/index.css" rel="stylesheet">
     <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <title>Task</title>
 </head>
 
@@ -63,13 +64,13 @@
         </div>
         <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
             <button onclick="SubmitTask()"
-                class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Submit</button>
+                class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl ss">Submit</button>
         </div>
     </div>
 
 </body>
 <script>
-    var file = null;
+    var file;
 
     function GoToBack() {
         //console.log(window.history);
@@ -104,6 +105,9 @@
             }
             data[i] = $(".inp" + i).val()
         })
+        if (file) {
+            data['file'] = file.name;
+        }
 
         if (canAdd) {
             data["shared"] = false;
@@ -120,9 +124,8 @@
         input.type = 'file';
         input.onchange = _ => {
             // you can use this method to get file and perform respective operations
-            let files = Array.from(input.files)[0];
-            $(".btnAddFile").html(files.name);
-            file = files;
+            file = Array.from(input.files)[0];
+            $(".btnAddFile").html(file.name);
         };
         input.click();
     }
