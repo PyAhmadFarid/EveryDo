@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/index.css" rel="stylesheet">
     <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     <title>EveryDo</title>
 </head>
 
@@ -197,35 +198,37 @@
                     </div>
 
                     <div class="m-7 ">
-                        <img src="img/jokowi.jpg" alt="foto-profile" class="mx-auto h-40 w-40 rounded-full">
+                        <img onclick="changePhoto()" src="img/jokowi.jpg" alt="foto-profile"
+                            class="profilePicture mx-auto h-40 w-40 rounded-full">
                     </div>
                     <div class=" font-bold text-2xl text-niceBlue mx-7 text-center userNameBaner">Fini Charista</div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300 ">Name</span>
-                        <input type="text" class="userName w-full border border-niceBlack p-2 rounded-xl mt-2"
+                        <input type="text" class="inpname w-full border border-niceBlack p-2 rounded-xl mt-2"
                             name="name" placeholder="Your Name" required>
                     </div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Email</span>
-                        <input type="email" class="userEmail w-full border border-niceBlack p-2 rounded-xl mt-2"
+                        <input type="email" class="inpemail w-full border border-niceBlack p-2 rounded-xl mt-2"
                             name="email" placeholder="ex: youremail@gmail.com" required>
                     </div>
                     <div class="m-7 ">
                         <span class="font-bold text-gray-300">Password</span>
-                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2"
+                        <input type="password" class=" inppassword w-full border border-niceBlack p-2 rounded-xl mt-2"
                             name="password"
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                             required>
                     </div>
                     <div class="mx-7 mb-4">
                         <span class="font-bold text-gray-300">Re-Type Password</span>
-                        <input type="password" class=" w-full border border-niceBlack p-2 rounded-xl mt-2"
+                        <input type="password" class="inpreassword w-full border border-niceBlack p-2 rounded-xl mt-2"
                             name="repassword"
                             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                             required>
                     </div>
                     <div class="mt-7 mx-7">
-                        <button class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Save
+                        <button onclick="updateProfile()"
+                            class="mt-4 py-4 bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Save
                             Changes</button>
                     </div>
                     <div class="mx-7 pb-6">
@@ -272,9 +275,13 @@
     if (localStorage.getItem("user") != undefined) {
         User = JSON.parse(localStorage.getItem("user"));
         $(".userNameBaner").html(User.user.name);
-        $(".userName").val(User.user.name);
+        $(".inpname").val(User.user.name);
         $(".Name").html(User.user.name);
-        $(".userEmail").val(User.user.email);
+        $(".inpemail").val(User.user.email);
+
+        if(User.user.profile_pic !== null){
+            
+        }
 
     }
 
@@ -322,9 +329,9 @@
     }
     GoToPage(0)
 
-    function getUserProfile(){
+    function getUserProfile() {
         $.get({
-            url:"https://everydo.herokuapp.com/api/user/user-profile",
+            url: "https://everydo.herokuapp.com/api/user/user-profile",
             headers: { "Authorization": "Bearer " + User.access_token },
             success: dt => {
                 console.log(dt);
@@ -360,7 +367,7 @@
                     //refresh token
                     refreshtoken()
                     logout();
-                }else{
+                } else {
                     localStorage.removeItem("user");
                     location.reload();
                 }
@@ -380,7 +387,7 @@
     }
 
 
-    
+
     function buildTaskBtn(data) {
 
         let date = new Date(data.EndDate);
@@ -472,17 +479,101 @@
 
     // Search Tugas
     function filter() {
-      var value,name,task,i;
-      value = document.getElementById("value").value.toUpperCase();
-      task = document.getElementsByClassName("taskBtn");
-      for(i=0;i<task.length;i++){
-        name = task[i].getElementsByClassName("taskBtnName");
-        if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
-            task[i].style.display = "flex";
-        }else{
-            task[i].style.display = "none";
+        var value, name, task, i;
+        value = document.getElementById("value").value.toUpperCase();
+        task = document.getElementsByClassName("taskBtn");
+        for (i = 0; i < task.length; i++) {
+            name = task[i].getElementsByClassName("taskBtnName");
+            if (name[0].innerHTML.toUpperCase().indexOf(value) > -1) {
+                task[i].style.display = "flex";
+            } else {
+                task[i].style.display = "none";
+            }
         }
-      }
+    }
+
+    function getBase64(file) {
+
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
+    var photo;
+    function changePhoto() {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = _ => {
+            // you can use this method to get file and perform respective operations
+            photo = Array.from(input.files)[0];
+
+            let aa = window.URL.createObjectURL(photo);
+            $(".profilePicture").attr("src", aa);
+
+            updatePhoto();
+
+
+        };
+        input.click();
+    }
+
+
+    function updatePhoto() {
+        var formData = new FormData();
+        formData.append("photo", photo);
+        console.log(formData);
+        $.post({
+            url: "https://everydo.herokuapp.com/api/user/profile-picture",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: (dt) => {
+                if (dt.message === "Image successfully uploaded") {
+                    console.log(dt);
+                    User.user = dt.user;
+                    localStorage.setItem("user", JSON.stringify(User));
+                }
+
+            }
+        })
+    }
+
+    function updateProfile() {
+        let inps = ["name", "email", "password"]
+
+        let data = {};
+        inps.forEach(e => {
+            if ($(".inp" + e).val() !== "") {
+                data[e] = $(".inp" + e).val();
+            }
+
+        })
+        if ((data.password !== undefined) && (data.password !== $(".inprepassword"))) {
+            $(".userPassword").removeClass("border-niceBlack");
+            $(".userRePassword").removeClass("border-niceBlack");
+            $(".userRePassword").addClass("border-niceRed");
+            $(".userPassword").addClass("border-niceRed");
+        }
+
+
+
+        $.ajax({
+            type: "PUT",
+            url: "https://everydo.herokuapp.com/api/user/update",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            data: data,
+            success: (dt) => {
+                console.log(dt);
+                User.user = dt.user;
+                localStorage.setItem("user", JSON.stringify(User));
+            }
+
+        })
+
+
+
     }
 </script>
 

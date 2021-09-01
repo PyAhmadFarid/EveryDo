@@ -190,19 +190,24 @@
 
     }
     
+
+    function toDetail(taskid,todoid){
+        window.location.href = "detailSubTask.html?taskid="+taskid+"&todoid="+todoid;
+    }
     
     
     $(".subTask").empty()
     if((myTask.subTask !== undefined) && (myTask.subTask.length !== 0)){
         $(".todos").show();
-        myTask.subTask.forEach(e=>{
+        myTask.subTask.forEach((e,i)=>{
             let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
             subs.html(e.TaskName);
-
+            subs.attr("onclick","toDetail("+myTask.id+","+i+")");
             let arrow = 
             $('<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>');
             subs.append(arrow);
             $(".subTask").append(subs);
+            
         })
     }
 
