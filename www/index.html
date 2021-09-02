@@ -168,7 +168,7 @@
                     <img class="  transform -translate-x-5 -translate-y-8 float-right" src="icons/search-20px.svg"
                         alt="">
                 </div>
-                <div class="flex flex-wrap px-4 justify-center overflow-y-auto pb-10 MyTaskSection">
+                <div class="flex flex-wrap px-4 overflow-y-auto pb-10 MyTaskSection">
 
                     <!-- 
                     <button class=" taskBtn">
@@ -438,6 +438,8 @@
     $(".HistoryTaskSection").empty();
     $(".MyTaskSection").empty();
     let count = [0, 0, 0];
+
+
     if (localStorage.getItem("myTask") != undefined) {
         myTask.forEach(dt => {
             let task = buildTaskBtn(dt);
@@ -462,6 +464,13 @@
 
         })
     }
+    
+    if(User){
+
+    }
+    
+    
+    
     $(".TodayTaskCount").html("(" + count[0] + ")");
     $(".ToDoTaskCount").html("(" + count[1] + ")");
     $(".HistoryTaskCount").html("(" + count[2] + ")");

@@ -14,12 +14,9 @@
 <body>
     <div class=" w-screen h-screen flex flex-col">
         <div class="h-full overflow-y-auto">
-            <div class=" flex justify-between m-6">
+            <div class=" flex justify-start m-6">
                 <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
-                </button>
-                <button>
-                    <img src="icons/more-24px.svg" alt="">
                 </button>
             </div>
 
@@ -72,6 +69,11 @@
 <script>
     var file;
 
+    let User = null;
+    if (localStorage.getItem("user") != undefined) {
+        User = JSON.parse(localStorage.getItem("user"));
+    }
+
     function GoToBack() {
         //console.log(window.history);
         window.location.href = "index.html"
@@ -83,7 +85,10 @@
         }
 
         let mytask = JSON.parse(localStorage.getItem("myTask"));
-        data["id"] = mytask.length;
+        if(User === null){
+            data["id"] = mytask.length;
+        }
+        
         mytask.push(data);
         localStorage.setItem("myTask", JSON.stringify(mytask));
 
@@ -112,9 +117,53 @@
         if (canAdd) {
             data["shared"] = false;
             data["subTask"] = [];
-            AddTask(data);
 
-            GoToBack();
+
+
+            if (User) {
+
+                console.log(data);
+                data2 = new FormData();
+                data2.append("title", data["TaskName"]);
+                data2.append("desc", data["TaskDescription"]);
+                data2.append("start", data["StartDate"]);
+                data2.append("end", data["EndDate"]);
+
+                console.log(data2.get("title"));
+
+
+                if (file) {
+                    data2.append("file", file);
+                }
+                console.log(data2);
+                $.post({
+                    url: "https://everydo.herokuapp.com/api/task",
+                    headers: { "Authorization": "Bearer " + User.access_token },
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    data: data2,
+                    success: (dt) => {
+                        console.log(dt);
+                        data["shared"] = true;
+                        data["id"] = dt.data.id;
+                        AddTask(data);
+                        GoToBack();
+                    }
+                })
+            }
+            else{
+                AddTask(data);
+                GoToBack();
+            }
+
+            //AddTask(data);
+            //GoToBack();
+
+
+
+
+            //GoToBack();
         }
 
     }
