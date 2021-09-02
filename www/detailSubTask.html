@@ -68,7 +68,8 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('taskid');
-    const todoId = urlParams.get('todoid');
+    var todoId = urlParams.get('todoid');
+
 
     let User;
     if (localStorage.getItem("user") != undefined) {
@@ -84,6 +85,12 @@
             idx = e.id
         }
     });
+
+    myTask.subTask.forEach((e,i)=>{
+        if(e.id === todoId){
+            todoId = i;
+        }
+    })
 
     function GoToBack() {
         //console.log(window.history);

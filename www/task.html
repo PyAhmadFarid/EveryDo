@@ -25,7 +25,7 @@
             </div>
             <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
                 <button onclick="setTools()"
-                    class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Close</button>
+                    class="  bg-niceBlue text-white font-bold h-full w-full rounded-2xl">Close</button>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
                 <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
                 </button>
-                <button onclick="setTools()">
+                <button class="setToolsBtn" onclick="setTools()">
                     <img src="icons/more-24px.svg" alt="">
                 </button>
             </div>
@@ -59,7 +59,26 @@
             <div class=" items-center text-lg px-7 user hidden">
                 <img class=" h-10 w-10 rounded-full mr-2 inline" src="img/jokowi.jpg" alt="">
                 <span class="userName">Fini Charisa</span>
-                
+
+            </div>
+            <div class="px-7 pt-7">
+                <span class=" font-bold text-gray-300">ID</span>
+                <div class=" text-lg pt-2 flex items-center">
+
+                    <span class="TaskID">
+                        HESOYAM
+                    </span>
+                    <button onclick="copyCode()" class=" text-niceBlack bg-blueGray p-1 ml-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                    </button>
+
+
+
+                </div>
             </div>
             <div class="p-7">
                 <span class=" font-bold text-gray-300">Descriptions</span>
@@ -99,7 +118,8 @@
             <div class="p-7 attacment hidden">
                 <span class=" font-bold text-gray-300">Attachments</span>
                 <div class="my-3 ">
-                    <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg" alt="attachment-docs">
+                    <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg"
+                        alt="attachment-docs">
                     <p class="pl-7 text-base attacmentfile">Fini_101511513921_Task1.docx</p>
                 </div>
             </div>
@@ -115,7 +135,8 @@
         </button>
 
         <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
-            <button class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl joinbtn">Join</button>
+            <button onclick="joinTask()"
+                class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl joinbtn">Join</button>
         </div>
     </div>
 
@@ -126,7 +147,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const taskId = urlParams.get('id');
 
-    let User;
+    var User;
     if (localStorage.getItem("user") != undefined) {
         User = JSON.parse(localStorage.getItem("user"));
 
@@ -136,37 +157,139 @@
 
     console.log(taskId)
 
-    function GoToAddSubTask(){
-        window.location.href = "addSubTask.html?id="+taskId;
+    function GoToAddSubTask() {
+        window.location.href = "addSubTask.html?id=" + taskId;
     }
     function GoToBack() {
         //console.log(window.history);
         window.location.href = "index.html"
     }
 
-    function goToCheckListFile(){
-        window.location.href = "checkList.html?id="+taskId;
+    function goToCheckListFile() {
+        window.location.href = "checkList.html?id=" + taskId;
     }
 
 
-    
+
     let allTask = JSON.parse(localStorage.getItem("myTask"));
-    let myTask;
-    allTask.forEach(e=>{
-        if(e.id == taskId){
-            myTask = e;
-            idx = e.id
+
+    var myTask;
+
+    var joined = false;
+
+    if (allTask) {
+        allTask.forEach((e, i) => {
+            if (e.id == taskId) {
+                myTask = e;
+                idx = i
+            }
+        })
+    }
+
+    console.log("idx", allTask);
+
+    if (myTask === undefined) {
+        //mencari di dtabase
+        
+        console.log("tidak ada")
+        $.get({
+            url: "https://everydo.herokuapp.com/api/task/" + taskId,
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: dt => {
+                joined = true;
+                console.log(dt);
+                myTask = {
+                    "TaskCategory": dt.data.category,
+                    "TaskName": dt.data.title,
+                    "second_id": dt.data.second_id,
+                    "StartDate": dt.data.start,
+                    "EndDate": dt.data.start,
+                    "TaskDescription": dt.data.desc,
+                    "file": dt.data.file,
+                    "create_by": dt.data.user_id,
+                    "id": dt.data.id
+                }
+                show();
+                $("body").show();
+            }
+        })
+    }
+    else {
+        show()
+    }
+
+
+    function show() {
+        console.log(myTask)
+        $(".TaskCategory").html(myTask.TaskCategory);
+        $(".TaskName").html(myTask.TaskName);
+        $(".TaskID").html(myTask.second_id);
+        const sdate = new Date(myTask.StartDate).toDateString()
+        const ndate = new Date(myTask.EndDate).toDateString()
+        $(".TaskDate").html(sdate + " - " + ndate);
+        $(".TaskDescriptions").html(myTask.TaskDescription);
+
+
+        if (myTask.file != undefined) {
+            $(".attacment").show();
+            let subss = myTask.file.split("/")
+            $(".attacmentfile").html(subss[subss.length - 1]);
         }
-    })
+        if ((myTask.user_id !== User.user.id)) {
+            $(".addBtn").hide();
+        }
+        if (!joined) {
+            //
+            $(".joinbtn").removeClass("bg-niceBlue");
+            $(".joinbtn").addClass("bg-gray-300");
 
-    console.log(myTask)
-    $(".TaskCategory").html(myTask.TaskCategory);
-    $(".TaskName").html(myTask.TaskName);
-    const sdate = new Date(myTask.StartDate).toDateString()
-    const ndate = new Date(myTask.EndDate).toDateString()
-    $(".TaskDate").html(sdate + " - " + ndate);
-    $(".TaskDescriptions").html(myTask.TaskDescription);
+        } else {
+            $(".joinbtn").addClass("bg-niceBlue");
+            $(".joinbtn").removeClass("bg-gray-200");
 
+        }
+
+        if (myTask.create_by !== User.id) {
+            $.get({
+                url: "https://everydo.herokuapp.com/api/subtask/" + myTask.id,
+                headers: { "Authorization": "Bearer " + User.access_token },
+                success: dt => {
+                    console.log(dt);
+                    myTask.subTask = [];
+                    dt.data.forEach(e => {
+
+                        myTask.subTask.push({
+                            "TaskName": e.title,
+                            "id": e.id,
+                            "TaskDescription": e.desc
+                        })
+                    })
+                    showSubTask();
+                    console.log("aa")
+                    allTask[idx] = myTask;
+                    localStorage.setItem("myTask", JSON.stringify(allTask));
+
+
+                }
+
+            })
+
+            $(".setToolsBtn").addClass("opacity-0 pointer-events-none");
+
+
+        } else {
+            showSubTask();
+        }
+
+
+    }
+
+
+    function copyCode() {
+        //window.prompt("Copy to clipboard: Ctrl+C, Enter", myTask.second_id);
+        navigator.clipboard.writeText(myTask.second_id);
+        alert("code telah di copy")
+    }
 
 
     var toolsActive = false;
@@ -189,50 +312,75 @@
 
 
     }
-    
 
-    function toDetail(taskid,todoid){
-        window.location.href = "detailSubTask.html?taskid="+taskid+"&todoid="+todoid;
+
+    function toDetail(taskid, todoid) {
+        window.location.href = "detailSubTask.html?taskid=" + taskid + "&todoid=" + todoid;
     }
-    
-    
-    $(".subTask").empty()
-    if((myTask.subTask !== undefined) && (myTask.subTask.length !== 0)){
-        $(".todos").show();
-        myTask.subTask.forEach((e,i)=>{
-            let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
-            subs.html(e.TaskName);
-            subs.attr("onclick","toDetail("+myTask.id+","+i+")");
-            let arrow = 
-            $('<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>');
-            subs.append(arrow);
-            $(".subTask").append(subs);
-            
+
+    function showSubTask() {
+        console.log("showSub task")
+        $(".subTask").empty()
+        if ((myTask.subTask !== undefined) && (myTask.subTask.length !== 0)) {
+            $(".todos").show();
+            myTask.subTask.forEach((e, i) => {
+                let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
+                subs.html(e.TaskName);
+                subs.attr("onclick", "toDetail(" + myTask.id + "," + i + ")");
+                let arrow =
+                    $('<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>');
+                subs.append(arrow);
+                $(".subTask").append(subs);
+
+            })
+        }
+    }
+
+    function joinTask() {
+        $.get({
+            url: "https://everydo.herokuapp.com/api/task/tasktome/" + taskId,
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: (dt) => {
+                console.log(dt);
+                if (dt.message === "the task was successfully added to your account") {
+                    $(".joinbtn").removeClass("bg-niceBlue");
+                    $(".joinbtn").addClass("bg-gray-300");
+
+
+                    let ttk = {
+                        "TaskCategory": dt.task.category,
+                        "TaskName": dt.task.title,
+                        "second_id": dt.task.second_id,
+                        "StartDate": dt.task.start,
+                        "EndDate": dt.task.start,
+                        "TaskDescription": dt.task.desc,
+                        "id": dt.task.id,
+                        "file": dt.task.file,
+                        "create_by": dt.task.user_id
+                    }
+                    allTask.push(ttk);
+                    localStorage.setItem("myTask", JSON.stringify(allTask));
+                }
+            }
+
+
         })
     }
 
+    //send subTask
 
-    if(myTask.shared === false){
-        $(".joinUserPhoto").hide();
-        //$(".user").hide();
-    }
 
-    if(User){
+
+    //showSubTask()
+
+    //if (myTask.shared === false) {
+    //$(".joinUserPhoto").hide();
+    //$(".user").hide();
+    //}
+
+    if (User) {
         $(".user").show();
         $(".userName").html(User.user.name);
-    }
-
-    if((localStorage.getItem('user') !== undefined) || (myTask.create_by === undefined) || (myTask.create_by === User.user.id)){
-        //
-        
-        $(".joinbtn").removeClass("bg-niceBlue");
-        $(".joinbtn").addClass("bg-gray-300");
-    
-    }
-    if(myTask.file != undefined){
-        $(".attacment").show();
-
-        $(".attacmentfile").html(myTask.file);
     }
 
     $(document).ready(function () {

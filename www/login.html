@@ -92,7 +92,8 @@
                 success:(dt)=>{
                     console.log(dt)
                     localStorage.setItem("user",JSON.stringify(dt));
-                    window.location.href="index.html"
+                    window.location.href="index.html";
+                    localStorage.removeItem("myTask");
                 }
                 
             })

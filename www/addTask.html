@@ -128,6 +128,7 @@
                 data2.append("desc", data["TaskDescription"]);
                 data2.append("start", data["StartDate"]);
                 data2.append("end", data["EndDate"]);
+                data2.append("category", data["TaskCategory"]);
 
                 console.log(data2.get("title"));
 
@@ -147,8 +148,12 @@
                         console.log(dt);
                         data["shared"] = true;
                         data["id"] = dt.data.id;
+                        data["user_id"] = dt.data.user_id;
+                        data["second_id"] = dt.data.second_id;
+                        data["file_link"] = dt.data.file;
                         AddTask(data);
-                        GoToBack();
+                        
+                        //GoToBack();
                     }
                 })
             }

@@ -14,7 +14,7 @@
     <div class=" w-screen h-screen flex flex-col">
         <div class="h-full overflow-y-auto">
             <div class=" flex justify-between m-6">
-                <button>
+                <button onclick="GoToBack()">
                     <img src="icons/back-24px.svg" alt="">
                 </button>
             </div>
@@ -58,7 +58,9 @@
 
 </body>
 <script>
-
+    function GoToBack(){
+        window.history.back();
+    }
     function register(){
         const inps = ["name","email","password"];
         canregister = true;
@@ -84,7 +86,9 @@
                 data:data,
                 success:(e)=>{
                     console.log(e);
-                    window.location.href = "login.html"
+                    localStorage.setItem("user",JSON.stringify(e))
+                    window.location.href = "index.html"
+                    localStorage.removeItem("myTask");
                 }
             })
         }

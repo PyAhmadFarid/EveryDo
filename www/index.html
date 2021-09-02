@@ -243,18 +243,23 @@
 
         </div>
 
-        <button class=" absolute bottom-28 right-5 addBtn" id="add-task" onclick="displayAddTask()" style="display: inline-block;">
+        <button class=" absolute bottom-28 right-5 addBtn" id="add-task" onclick="displayAddTask()"
+            style="display: inline-block;">
             <img class=" w-20 h-20" src="icons/add_task-44px.svg" alt="">
         </button>
 
-        <button class=" absolute bottom-28 right-5 addBtn" id="close-add-task" onclick="closeAddTask()" style="display: none;">
+        <button class=" absolute bottom-28 right-5 addBtn" id="close-add-task" onclick="closeAddTask()"
+            style="display: none;">
             <img class=" w-20 h-20 transform rotate-45" src="icons/add_task-44px.svg" alt="">
         </button>
 
-        <button class=" absolute bottom-28 right-5 addBtn mb-20 mr-3 rounded-lg px-4" id="detail-add-task" onclick="" style="background-color: #505765; display: none;">
+        <button class=" absolute bottom-28 right-5 addBtn mb-20 mr-3 rounded-lg px-4" id="detail-add-task" onclick=""
+            style="background-color: #505765; display: none;">
             <ul class="list-inside bg-rose-200 text-white">
-                <li class="my-2 py-1"><a onclick="#"><img class=" w-5 h-5 float-left mx-2" src="icons/plus.svg" alt="">Join Task </a></li>
-                <li class="my-2 py-1"><a onclick="GoToAdd()"><img class=" w-5 h-5 float-left mx-2" src="icons/pen.svg" alt="">Create Task </a></li>
+                <li class="my-2 py-1"><a onclick="GoToJoin()"><img class=" w-5 h-5 float-left mx-2" src="icons/plus.svg"
+                            alt="">Join Task </a></li>
+                <li class="my-2 py-1"><a onclick="GoToAdd()"><img class=" w-5 h-5 float-left mx-2" src="icons/pen.svg"
+                            alt="">Create Task </a></li>
             </ul>
         </button>
 
@@ -290,8 +295,8 @@
         $(".Name").html(User.user.name);
         $(".inpemail").val(User.user.email);
 
-        if(User.user.profile_pic !== null){
-            
+        if (User.user.profile_pic !== null) {
+
         }
 
     }
@@ -320,7 +325,7 @@
         $(".pageBtn").removeClass("text-niceBlue");
         $(".btn" + pages[iid]).addClass("text-niceBlue");
 
-        if (iid === 2) {    
+        if (iid === 2) {
             document.getElementById("add-task").style.display = "none";
             document.getElementById("close-add-task").style.display = "none";
             document.getElementById("detail-add-task").style.display = "none";
@@ -390,28 +395,84 @@
 
     }
 
-    var myTask = JSON.parse(localStorage.getItem("myTask"));
+    var myTask;
+    if (JSON.parse(localStorage.getItem("myTask"))) {
+        myTask = JSON.parse(localStorage.getItem("myTask"));
+    }
+    else {
+        console.log("get data from db")
+        $.get({
+            url: "https://everydo.herokuapp.com/api/task",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: (data) => {
+                myTask = [];
+                console.log(data);
+                data.data.forEach(dt => {
+                    console.log(dt);
+                    let ttk = {
+                        "TaskCategory": dt.category,
+                        "TaskName": dt.title,
+                        "second_id": dt.second_id,
+                        "StartDate": dt.start,
+                        "EndDate": dt.start,
+                        "TaskDescription": dt.desc,
+                        "id": dt.id,
+                        "file": dt.file,
+                        "create_by": dt.user_id
+                    }
+                    myTask.push(ttk);
+                    console.log(myTask);
+
+
+                })
+
+                localStorage.setItem("myTask", JSON.stringify(myTask));
+            }
+
+        })
+
+    }
+
+
     function GoToAdd() {
 
         window.location.href = "addTask.html"
     }
 
-    function displayAddTask() {        
+
+    function displayAddTask() {
         document.getElementById("add-task").style.display = "none";
         document.getElementById("close-add-task").style.display = "inline-block";
         document.getElementById("detail-add-task").style.display = "inline-block";
     }
 
-    function closeAddTask() {                
+    function closeAddTask() {
         document.getElementById("detail-add-task").style.display = "none";
         document.getElementById("close-add-task").style.display = "none";
         document.getElementById("add-task").style.display = "inline-block";
     }
 
+    function GoToJoin() {
+        window.location.href = "joinTask.html";
+    }
+
     function GoToTask(id) {
         window.location.href = "task.html?id=" + id;
     }
-    
+
+    function getallTask() {
+        var mytask = [];
+        $.get({
+            url:"https://everydo.herokuapp.com/api/task",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success:dt=>{
+                console.log(dt);
+            }
+        })
+
+    }
+
+
     function buildTaskBtn(data) {
 
         let date = new Date(data.EndDate);
@@ -488,13 +549,13 @@
 
         })
     }
-    
-    if(User){
+
+    if (User) {
 
     }
-    
-    
-    
+
+
+
     $(".TodayTaskCount").html("(" + count[0] + ")");
     $(".ToDoTaskCount").html("(" + count[1] + ")");
     $(".HistoryTaskCount").html("(" + count[2] + ")");

@@ -51,6 +51,12 @@
         window.history.back()
     }
 
+    var User;
+    if (localStorage.getItem("user") != undefined) {
+        User = JSON.parse(localStorage.getItem("user"));
+
+    }
+
     let allMyTask = JSON.parse(localStorage.getItem("myTask"))
     let myTask = null;
     allMyTask.forEach((e,i)=>{
@@ -81,11 +87,22 @@
         })
 
         if(canAdd){
-            data["id"] = myTask.subTask.length;
-            myTask.subTask.push(data);
-            allMyTask[idx] = myTask;
-            localStorage.setItem("myTask",JSON.stringify(allMyTask));
-            GoToBack();
+
+
+            $.post({
+                url:"https://everydo.herokuapp.com/api/subtask",
+                headers: { "Authorization": "Bearer " + User.access_token },
+                data:{"title":data["TaskName"],"desc":data["TaskDescription"],"task_id":myTask.id},
+                success:dt=>{
+                    console.log(dt);
+                    data["id"] = dt.data.id;
+                    myTask.subTask.push(data);
+                    allMyTask[idx] = myTask;
+                    localStorage.setItem("myTask",JSON.stringify(allMyTask));
+                }
+
+            })
+            //GoToBack();
         }
     }
 
