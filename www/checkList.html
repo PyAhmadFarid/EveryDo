@@ -45,13 +45,15 @@
                     <a onclick="todoOpen(0)" class=" text-base font-bold text-niceBlack pt-2" href="#">
                         Task 1 : Research About Algorithm
                         <!-- SVG icon tidak ada di offlien -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right rotate-180 transform transition-all todoArow0"
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 float-right rotate-180 transform transition-all todoArow0"
                             viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
                                 clip-rule="evenodd" />
                         </svg>
                     </a>
+
                     <div class="my-3 todoFiles0 transform transition-all overflow-hidden">
                         <a href="">
                             <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg"
@@ -59,6 +61,8 @@
                             <p class="pl-7 text-base">Fini_101511513921_Task1.docx</p>
                         </a>
                     </div>
+
+
 
                     <a class=" text-base font-bold text-niceBlack pt-2" href="#">
                         Task 2 : Operational Mathematics
@@ -126,13 +130,54 @@
     function todoOpen(id) {
         ids[id] = !ids[id];
         if (ids[id]) {
-            $(".todoFiles"+id).removeClass("h-0");
-            $(".todoArow"+id).addClass("rotate-180");
-        }else{
-            $(".todoFiles"+id).addClass("h-0");
-            $(".todoArow"+id).removeClass("rotate-180");
+            $(".todoFiles" + id).removeClass("h-0");
+            $(".todoArow" + id).addClass("rotate-180");
+        } else {
+            $(".todoFiles" + id).addClass("h-0");
+            $(".todoArow" + id).removeClass("rotate-180");
         }
     }
+
+    function buildTodos(dt) {
+        let a = $("<a>").addClass("text-base font-bold text-niceBlack pt-2");
+        a.attr("onclick", "todoOpen(" + dt.id + ")");
+        a.append(dt.title);
+        let b = $(' <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 float-right rotate-180 transform transition-all "viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd"d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>')
+        b.addClass("todoArow" + dt.id);
+        a.append(b);
+
+        return a
+    }
+
+    function buildAss(dt) {
+        let a = $("<div>").addClass("my-3 transform transition-all overflow-hidden");
+        a.addClass("todoFiles" + dt.id);
+        dt.assigments.forEach(e => {
+            let y = $("<a>").attr("href",e.file);
+            y.append('<img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg" alt="attachment-docs">');
+            let p = $("<p>").addClass("pl-7 text-base");
+            p.html("dokumen_user_ke_"+e.user_id);
+            y.append(p);
+            a.append(y);
+        })
+        return a;
+    }
+
+
+    $.get({
+        url: "https://everydo.herokuapp.com/api/assigment/" + taskId,
+        headers: { "Authorization": "Bearer " + User.access_token },
+        success: dt => {
+            console.log(dt);
+            if (dt.message === "success") {
+                $(".subTask").empty();
+                dt.data.forEach(e => {
+                    $(".subTask").append(buildTodos(e));
+                    $(".subTask").append(buildAss(e));
+                })
+            }
+        }
+    })
 
 </script>
 

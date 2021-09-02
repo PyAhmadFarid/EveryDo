@@ -309,7 +309,7 @@
             window.location.href = "login.html";
         } else {
             if (User != null) {
-
+                $(".profilePicture").attr("src",User.user.profile_pic)
             }
         }
 
@@ -418,7 +418,37 @@
                         "TaskDescription": dt.desc,
                         "id": dt.id,
                         "file": dt.file,
-                        "create_by": dt.user_id
+                        "user_id": dt.user_id
+                    }
+                    myTask.push(ttk);
+                    console.log(myTask);
+
+
+                })
+
+                localStorage.setItem("myTask", JSON.stringify(myTask));
+            }
+
+        })
+
+        $.get({
+            url: "https://everydo.herokuapp.com/api/task/taskme",
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success: (data) => {
+                myTask = [];
+                console.log(data);
+                data.data.forEach(dt => {
+                    console.log(dt);
+                    let ttk = {
+                        "TaskCategory": "cat",
+                        "TaskName": dt.title,
+                        "second_id": dt.second_id,
+                        "StartDate": dt.start,
+                        "EndDate": dt.start,
+                        "TaskDescription": dt.desc,
+                        "id": dt.id,
+                        "file": dt.file,
+                        "user_id": dt.user_id,
                     }
                     myTask.push(ttk);
                     console.log(myTask);
@@ -460,17 +490,8 @@
         window.location.href = "task.html?id=" + id;
     }
 
-    function getallTask() {
-        var mytask = [];
-        $.get({
-            url:"https://everydo.herokuapp.com/api/task",
-            headers: { "Authorization": "Bearer " + User.access_token },
-            success:dt=>{
-                console.log(dt);
-            }
-        })
 
-    }
+    
 
 
     function buildTaskBtn(data) {

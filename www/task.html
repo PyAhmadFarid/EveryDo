@@ -102,11 +102,13 @@
 
             <div class="">
                 <span class=" font-bold text-gray-300 px-7">Assign</span>
-                <div class="w-full flex overflow-x-auto space-x-3 pt-2">
+                <div class="w-full flex overflow-x-auto space-x-3 pt-2 fotosiswa">
                     <div class="pl-4"></div>
+
                     <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
                     <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
                     <img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
+
                     <button class="flex-none flex w-14 h-14 justify-center items-center bg-blueGray rounded-xl">
                         <img class=" w-14 h-14" src="icons/share-40px.svg" alt="">
                     </button>
@@ -120,7 +122,7 @@
                 <div class="my-3 ">
                     <img class=" w-5 h-5 pageIcon float-left" src="icons/attachment-docs-20px.svg"
                         alt="attachment-docs">
-                    <p class="pl-7 text-base attacmentfile">Fini_101511513921_Task1.docx</p>
+                    <a class="pl-7 text-base attacmentfile">Fini_101511513921_Task1.docx</a>
                 </div>
             </div>
 
@@ -206,7 +208,7 @@
                     "EndDate": dt.data.start,
                     "TaskDescription": dt.data.desc,
                     "file": dt.data.file,
-                    "create_by": dt.data.user_id,
+                    "user_id": dt.data.user_id,
                     "id": dt.data.id
                 }
                 show();
@@ -232,8 +234,8 @@
 
         if (myTask.file != undefined) {
             $(".attacment").show();
-            let subss = myTask.file.split("/")
-            $(".attacmentfile").html(subss[subss.length - 1]);
+            $(".attacmentfile").html("document");
+            $(".attacmentfile").attr("href",myTask.file);
         }
         if ((myTask.user_id !== User.user.id)) {
             $(".addBtn").hide();
@@ -249,7 +251,8 @@
 
         }
 
-        if (myTask.create_by !== User.id) {
+        if (myTask.user_id !== User.id) {
+            console.log("tydak sama")
             $.get({
                 url: "https://everydo.herokuapp.com/api/subtask/" + myTask.id,
                 headers: { "Authorization": "Bearer " + User.access_token },
@@ -274,12 +277,31 @@
 
             })
 
-            $(".setToolsBtn").addClass("opacity-0 pointer-events-none");
+            //$(".setToolsBtn").addClass("opacity-0 pointer-events-none");
 
 
         } else {
             showSubTask();
         }
+
+        //get student
+        $.get({
+            url:"https://everydo.herokuapp.com/api/task/students/"+taskId,
+            headers: { "Authorization": "Bearer " + User.access_token },
+            success:(dt)=>{
+                if(dt.message === "Success"){
+                    $(".fotosiswa").empty()
+                    $(".fotosiswa").append('<div class="pl-4"></div>');
+                    dt.data.forEach(e=>{
+                        
+                        //<img class="joinUserPhoto flex-none w-14 h-14 rounded-xl" src="img/jokowi.jpg" alt="">
+                        let img = $("<img>").addClass("joinUserPhoto flex-none w-14 h-14 rounded-xl");
+                        img.attr("src",e.profile_pic);
+                        $(".fotosiswa").append(img);
+                    })
+                }
+            }
+        })
 
 
     }
