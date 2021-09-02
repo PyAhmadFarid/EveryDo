@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <title>Join Task</title>
+</head>
+<body>
+    <div class=" w-screen h-screen flex flex-col">
+        <div class="h-full overflow-y-auto">
+            <div class=" flex justify-between m-6">
+                <button onclick="GoToBack()">
+                    <img src="icons/back-24px.svg" alt="">
+                </button>
+            </div>
+
+            <div class=" font-bold text-2xl text-niceBlue m-7 ">Join Task</div>
+
+            <div class="m-7 ">
+                <span class="font-bold text-gray-300">ID Task</span>
+                <input  type="text" class=" inpTaskName inpTaskName w-full border border-niceBlack p-2 rounded-xl mt-2" placeholder="ID Task">
+            </div>
+
+
+
+
+        </div>
+        <div class="h-bar w-full flex justify-center items-center space-x-2 text-gray-400 shadow-bar px-5 py-6">
+            <button onclick="" class=" bg-niceBlue text-white font-bold h-full w-full rounded-2xl">View Task</button>
+        </div>
+    </div>
+
+</body>
+<script>
+    function GoToBack() {
+        window.location.href = "index.html"
+    }
+    
+
+</script>
+</html>
