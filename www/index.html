@@ -13,6 +13,9 @@
 
 <body class=" hidden">
     <div class=" w-screen h-screen flex flex-col">
+        <div class=" absolute w-screen h-screen z-10 tools pointer-events-none opacity-0">
+            <div class="w-screen h-screen absolute transition-all" onclick="displayAddTask()"></div>
+        </div>
 
         <div class="h-full overflow-y-auto">
 
@@ -243,17 +246,17 @@
 
         </div>
 
-        <button class=" absolute bottom-28 right-5 addBtn" id="add-task" onclick="displayAddTask()" style="display: inline-block;">
+        <button class=" absolute bottom-28 right-5 addBtn transition-all" id="add-task" onclick="displayAddTask()" style="display: inline-block;">
             <img class=" w-20 h-20" src="icons/add_task-44px.svg" alt="">
         </button>
 
-        <button class=" absolute bottom-28 right-5 addBtn" id="close-add-task" onclick="closeAddTask()" style="display: none;">
+        <button class=" absolute bottom-28 right-5 addBtn z-20 transition-all" id="close-add-task" onclick="displayAddTask()" style="display: none;">
             <img class=" w-20 h-20 transform rotate-45" src="icons/add_task-44px.svg" alt="">
         </button>
 
-        <button class=" absolute bottom-28 right-5 addBtn mb-20 mr-3 rounded-lg px-4" id="detail-add-task" onclick="" style="background-color: #505765; display: none;">
+        <button class=" absolute bottom-28 right-5 addBtn mb-20 mr-3 rounded-lg px-4 z-20 transition-all" id="detail-add-task" onclick="" style="background-color: #505765; display: none;">
             <ul class="list-inside bg-rose-200 text-white">
-                <li class="my-2 py-1"><a onclick="#"><img class=" w-5 h-5 float-left mx-2" src="icons/plus.svg" alt="">Join Task </a></li>
+                <li class="my-2 py-1"><a onclick="GoToJoin()"><img class=" w-5 h-5 float-left mx-2" src="icons/plus.svg" alt="">Join Task </a></li>
                 <li class="my-2 py-1"><a onclick="GoToAdd()"><img class=" w-5 h-5 float-left mx-2" src="icons/pen.svg" alt="">Create Task </a></li>
             </ul>
         </button>
@@ -392,20 +395,36 @@
 
     var myTask = JSON.parse(localStorage.getItem("myTask"));
     function GoToAdd() {
-
         window.location.href = "addTask.html"
     }
 
-    function displayAddTask() {        
-        document.getElementById("add-task").style.display = "none";
-        document.getElementById("close-add-task").style.display = "inline-block";
-        document.getElementById("detail-add-task").style.display = "inline-block";
+    function GoToJoin() {
+        window.location.href = "joinTask.html"
     }
 
-    function closeAddTask() {                
-        document.getElementById("detail-add-task").style.display = "none";
-        document.getElementById("close-add-task").style.display = "none";
-        document.getElementById("add-task").style.display = "inline-block";
+    var toolsActive = false;
+    function displayAddTask() {    
+        toolsActive = !toolsActive;    
+
+        if (toolsActive) {            
+            document.getElementById("add-task").style.display = "none";
+            document.getElementById("close-add-task").style.display = "inline-block";
+            document.getElementById("detail-add-task").style.display = "inline-block";
+            $(".tools").removeClass("pointer-events-none");
+            $(".tools").removeClass("opacity-0");
+            $(".tools").addClass("bg-black");
+            $(".tools").addClass("opacity-50");
+
+
+        } else {
+            document.getElementById("detail-add-task").style.display = "none";
+            document.getElementById("close-add-task").style.display = "none";
+            document.getElementById("add-task").style.display = "inline-block";
+            $(".tools").addClass("pointer-events-none");
+            $(".tools").addClass("opacity-0");
+            $(".tools").removeClass("bg-black");
+            $(".tools").removeClass("opacity-50");
+        }
     }
 
     function GoToTask(id) {
