@@ -235,7 +235,12 @@
         if (myTask.file != undefined) {
             $(".attacment").show();
             $(".attacmentfile").html("document");
-            $(".attacmentfile").attr("href",myTask.file);
+            if(myTask.file_link){
+                $(".attacmentfile").attr("href",myTask.file_link);
+            }else{
+                $(".attacmentfile").attr("href",myTask.file);
+            }
+            
         }
         if ((myTask.user_id !== User.user.id)) {
             $(".addBtn").hide();
@@ -251,7 +256,7 @@
 
         }
 
-        if (myTask.user_id !== User.id) {
+        if ((myTask.user_id !== User.id) || (myTask.create_by !== User.id)) {
             console.log("tydak sama")
             $.get({
                 url: "https://everydo.herokuapp.com/api/subtask/" + myTask.id,
@@ -344,6 +349,7 @@
         console.log("showSub task")
         $(".subTask").empty()
         if ((myTask.subTask !== undefined) && (myTask.subTask.length !== 0)) {
+            console.log("shiow")
             $(".todos").show();
             myTask.subTask.forEach((e, i) => {
                 let subs = $("<a>").addClass("font-bold text-niceBlack pt-2");
